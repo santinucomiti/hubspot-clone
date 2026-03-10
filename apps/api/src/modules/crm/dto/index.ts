@@ -8,3 +8,6 @@ export { UpdateCompanyDto } from './update-company.dto';
 export { CompanyQueryDto } from './company-query.dto';
 export { CreateActivityDto } from './create-activity.dto';
 export { ActivityQueryDto } from './activity-query.dto';
+export { CreateCustomPropertyDefinitionDto } from './create-custom-property-definition.dto';
+export { SetCustomPropertyValueDto } from './set-custom-property-value.dto';
+export { CustomPropertyQueryDto } from './custom-property-query.dto';
