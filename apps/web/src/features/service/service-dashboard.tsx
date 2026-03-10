@@ -45,7 +45,7 @@ const priorityColors: Record<string, string> = {
 function formatHours(hours: number): string {
   if (hours < 1) return `${Math.round(hours * 60)}m`;
   if (hours < 24) return `${hours.toFixed(1)}h`;
-  return `${(hours / 24).toFixed(1)}d`;
+  return `${(hours / 24).toFixed(1)}j`;
 }
 
 export function ServiceDashboard() {
@@ -58,7 +58,7 @@ export function ServiceDashboard() {
         const data = await getTicketDashboard();
         setDashboard(data);
       } catch {
-        toast.error('Failed to load dashboard');
+        toast.error('Échec du chargement du tableau de bord');
       } finally {
         setIsLoading(false);
       }
@@ -106,26 +106,26 @@ export function ServiceDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Open Tickets</CardTitle>
+            <CardTitle className="text-sm font-medium">Tickets ouverts</CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{dashboard.openCount}</div>
             <p className="text-xs text-muted-foreground">
-              Needing attention
+              Nécessitant une attention
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Tickets</CardTitle>
+            <CardTitle className="text-sm font-medium">Total des tickets</CardTitle>
             <Ticket className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalTickets}</div>
             <p className="text-xs text-muted-foreground">
-              All time
+              Depuis le début
             </p>
           </CardContent>
         </Card>
@@ -133,7 +133,7 @@ export function ServiceDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Avg Resolution Time
+              Temps de résolution moyen
             </CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -142,20 +142,20 @@ export function ServiceDashboard() {
               {formatHours(dashboard.avgResolutionTimeHours)}
             </div>
             <p className="text-xs text-muted-foreground">
-              From open to resolved
+              De l'ouverture à la résolution
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Resolved</CardTitle>
+            <CardTitle className="text-sm font-medium">Résolus</CardTitle>
             <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{resolvedCount}</div>
             <p className="text-xs text-muted-foreground">
-              Resolved + closed
+              Résolus + fermés
             </p>
           </CardContent>
         </Card>
@@ -166,9 +166,9 @@ export function ServiceDashboard() {
         {/* Tickets by Status */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Tickets by Status</CardTitle>
+            <CardTitle className="text-base">Tickets par statut</CardTitle>
             <CardDescription>
-              Distribution of tickets across statuses
+              Répartition des tickets par statut
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -200,9 +200,9 @@ export function ServiceDashboard() {
         {/* Tickets by Priority */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Tickets by Priority</CardTitle>
+            <CardTitle className="text-base">Tickets par priorité</CardTitle>
             <CardDescription>
-              Distribution of tickets across priorities
+              Répartition des tickets par priorité
             </CardDescription>
           </CardHeader>
           <CardContent>

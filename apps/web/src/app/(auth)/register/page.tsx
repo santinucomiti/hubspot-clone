@@ -30,21 +30,21 @@ const registerSchema = z
   .object({
     firstName: z
       .string()
-      .min(1, 'First name is required')
-      .max(100, 'First name is too long'),
+      .min(1, 'Le prénom est requis')
+      .max(100, 'Le prénom est trop long'),
     lastName: z
       .string()
-      .min(1, 'Last name is required')
-      .max(100, 'Last name is too long'),
-    email: z.string().email('Please enter a valid email address'),
+      .min(1, 'Le nom est requis')
+      .max(100, 'Le nom est trop long'),
+    email: z.string().email('Veuillez entrer une adresse e-mail valide'),
     password: z
       .string()
-      .min(8, 'Password must be at least 8 characters')
-      .max(128, 'Password is too long'),
+      .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
+      .max(128, 'Le mot de passe est trop long'),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'Les mots de passe ne correspondent pas',
     path: ['confirmPassword'],
   });
 
@@ -74,10 +74,10 @@ export default function RegisterPage() {
         data.firstName,
         data.lastName,
       );
-      toast.success('Account created successfully!');
+      toast.success('Compte créé avec succès !');
     } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : 'Registration failed';
+        error instanceof Error ? error.message : 'L\'inscription a échoué';
       toast.error(message);
     } finally {
       setIsLoading(false);
@@ -90,9 +90,9 @@ export default function RegisterPage() {
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-md bg-hubspot-orange text-white font-bold text-xl">
           H
         </div>
-        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardTitle className="text-2xl">Créer un compte</CardTitle>
         <CardDescription>
-          Enter your details to get started with HubSpot Clone
+          Entrez vos informations pour commencer avec HubSpot Clone
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -104,9 +104,9 @@ export default function RegisterPage() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First name</FormLabel>
+                    <FormLabel>Prénom</FormLabel>
                     <FormControl>
-                      <Input placeholder="John" autoComplete="given-name" {...field} />
+                      <Input placeholder="Jean" autoComplete="given-name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,9 +117,9 @@ export default function RegisterPage() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last name</FormLabel>
+                    <FormLabel>Nom</FormLabel>
                     <FormControl>
-                      <Input placeholder="Doe" autoComplete="family-name" {...field} />
+                      <Input placeholder="Dupont" autoComplete="family-name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -131,11 +131,11 @@ export default function RegisterPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>E-mail</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="name@company.com"
+                      placeholder="nom@entreprise.com"
                       autoComplete="email"
                       {...field}
                     />
@@ -149,11 +149,11 @@ export default function RegisterPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Mot de passe</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="At least 8 characters"
+                      placeholder="Au moins 8 caractères"
                       autoComplete="new-password"
                       {...field}
                     />
@@ -167,11 +167,11 @@ export default function RegisterPage() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm password</FormLabel>
+                  <FormLabel>Confirmer le mot de passe</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Repeat your password"
+                      placeholder="Répétez votre mot de passe"
                       autoComplete="new-password"
                       {...field}
                     />
@@ -181,16 +181,16 @@ export default function RegisterPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Creating account...' : 'Create account'}
+              {isLoading ? 'Création du compte...' : 'Créer un compte'}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          Already have an account?{' '}
+          Vous avez déjà un compte ?{' '}
           <Link href="/login" className="text-primary hover:underline">
-            Sign in
+            Se connecter
           </Link>
         </p>
       </CardFooter>

@@ -42,17 +42,17 @@ export function CampaignStats({ data, isLoading }: CampaignStatsProps) {
 
   const stats = [
     {
-      label: 'Emails Sent',
+      label: 'E-mails envoyés',
       value: data ? data.totalSent.toLocaleString() : '0',
       icon: Mail,
     },
     {
-      label: 'Avg Open Rate',
+      label: 'Taux d\'ouverture moy.',
       value: data ? `${data.avgOpenRate.toFixed(1)}%` : '0%',
       icon: Eye,
     },
     {
-      label: 'Avg Click Rate',
+      label: 'Taux de clic moy.',
       value: data ? `${data.avgClickRate.toFixed(1)}%` : '0%',
       icon: MousePointerClick,
     },
@@ -61,8 +61,8 @@ export function CampaignStats({ data, isLoading }: CampaignStatsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Campaign Stats</CardTitle>
-        <CardDescription>Email campaign performance overview</CardDescription>
+        <CardTitle className="text-base">Statistiques des campagnes</CardTitle>
+        <CardDescription>Aperçu des performances des campagnes e-mail</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-4">

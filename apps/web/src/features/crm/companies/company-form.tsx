@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { createCompany, updateCompany, type Company } from '@/lib/api/companies';
 
 const companySchema = z.object({
-  name: z.string().min(1, 'Company name is required').max(200),
+  name: z.string().min(1, 'Le nom de l\'entreprise est obligatoire').max(200),
   domain: z.string().max(200).optional().or(z.literal('')),
   industry: z.string().max(100).optional().or(z.literal('')),
   size: z.string().max(50).optional().or(z.literal('')),
@@ -55,16 +55,16 @@ export function CompanyForm({ company }: CompanyFormProps) {
       };
       if (isEditing) {
         await updateCompany(company.id, data);
-        toast.success('Company updated');
+        toast.success('Entreprise mise à jour');
         router.push(`/companies/${company.id}`);
       } else {
         const created = await createCompany(data);
-        toast.success('Company created');
+        toast.success('Entreprise créée avec succès');
         router.push(`/companies/${created.id}`);
       }
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: { message?: string } } } };
-      const message = error?.response?.data?.error?.message || 'Something went wrong';
+      const message = error?.response?.data?.error?.message || 'Une erreur est survenue';
       toast.error(message);
     }
   };
@@ -72,46 +72,46 @@ export function CompanyForm({ company }: CompanyFormProps) {
   return (
     <Card className="max-w-2xl">
       <CardHeader>
-        <CardTitle>{isEditing ? 'Edit Company' : 'Create Company'}</CardTitle>
+        <CardTitle>{isEditing ? 'Modifier l\'entreprise' : 'Créer une entreprise'}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField control={form.control} name="name" render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Name</FormLabel>
+                <FormLabel>Nom de l'entreprise</FormLabel>
                 <FormControl><Input {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
             <FormField control={form.control} name="domain" render={({ field }) => (
               <FormItem>
-                <FormLabel>Domain</FormLabel>
-                <FormControl><Input placeholder="example.com" {...field} /></FormControl>
+                <FormLabel>Domaine</FormLabel>
+                <FormControl><Input placeholder="exemple.com" {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
             <div className="grid grid-cols-2 gap-4">
               <FormField control={form.control} name="industry" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Industry</FormLabel>
+                  <FormLabel>Secteur d'activité</FormLabel>
                   <FormControl><Input {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField control={form.control} name="size" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size</FormLabel>
-                  <FormControl><Input placeholder="e.g. 1-10, 11-50, 51-200" {...field} /></FormControl>
+                  <FormLabel>Taille</FormLabel>
+                  <FormControl><Input placeholder="ex. 1-10, 11-50, 51-200" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
             </div>
             <div className="flex gap-2 pt-4">
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Saving...' : isEditing ? 'Update Company' : 'Create Company'}
+                {form.formState.isSubmitting ? 'Enregistrement...' : isEditing ? 'Mettre à jour l\'entreprise' : 'Créer l\'entreprise'}
               </Button>
-              <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+              <Button type="button" variant="outline" onClick={() => router.back()}>Annuler</Button>
             </div>
           </form>
         </Form>

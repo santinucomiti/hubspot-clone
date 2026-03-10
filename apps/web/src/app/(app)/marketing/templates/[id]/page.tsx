@@ -21,7 +21,7 @@ export default function EmailTemplateDetailPage() {
       const data = await getEmailTemplate(params.id);
       setTemplate(data);
     } catch {
-      toast.error('Failed to load template');
+      toast.error('Impossible de charger le modèle');
       router.push('/marketing/templates');
     } finally {
       setIsLoading(false);
@@ -35,9 +35,9 @@ export default function EmailTemplateDetailPage() {
   if (isLoading || !template) {
     return (
       <div className="space-y-6">
-        <PageHeader title="Email Template" />
+        <PageHeader title="Modèle d'e-mail" />
         <div className="h-96 flex items-center justify-center text-muted-foreground">
-          Loading...
+          Chargement...
         </div>
       </div>
     );
@@ -46,8 +46,8 @@ export default function EmailTemplateDetailPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`Edit: ${template.name}`}
-        description="Update your email template content and settings."
+        title={`Modifier : ${template.name}`}
+        description="Mettez à jour le contenu et les paramètres de votre modèle d'e-mail."
       />
       <TemplateForm initialData={template} />
     </div>

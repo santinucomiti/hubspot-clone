@@ -5,8 +5,8 @@ export default function NewContactListPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Create Contact List"
-        description="Build a new contact list for your marketing campaigns."
+        title="Créer une liste de contacts"
+        description="Créez une nouvelle liste de contacts pour vos campagnes marketing."
       />
       <ContactListForm />
     </div>

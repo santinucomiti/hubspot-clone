@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: 'HubSpot Clone',
-  description: 'Internal CRM, Marketing, Sales & Service platform',
+  description: 'Plateforme interne de CRM, Marketing, Ventes et Service',
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className={`${inter.variable} font-sans antialiased`}>
         <AuthProvider>
           {children}

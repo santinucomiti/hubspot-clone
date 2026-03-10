@@ -38,7 +38,7 @@ export default function CampaignDetailPage() {
       const data = await getCampaign(params.id);
       setCampaign(data);
     } catch {
-      toast.error('Failed to load campaign');
+      toast.error('Impossible de charger la campagne');
       router.push('/marketing/campaigns');
     } finally {
       setIsLoading(false);
@@ -53,11 +53,11 @@ export default function CampaignDetailPage() {
     setIsCancelling(true);
     try {
       await cancelCampaign(params.id);
-      toast.success('Campaign cancelled');
+      toast.success('Campagne annulée');
       setShowCancel(false);
       fetchCampaign();
     } catch {
-      toast.error('Failed to cancel campaign');
+      toast.error('Impossible d\'annuler la campagne');
     } finally {
       setIsCancelling(false);
     }
@@ -66,9 +66,9 @@ export default function CampaignDetailPage() {
   if (isLoading || !campaign) {
     return (
       <div className="space-y-6">
-        <PageHeader title="Campaign" />
+        <PageHeader title="Campagne" />
         <div className="h-96 flex items-center justify-center text-muted-foreground">
-          Loading...
+          Chargement...
         </div>
       </div>
     );
@@ -88,7 +88,7 @@ export default function CampaignDetailPage() {
             <Button variant="outline" asChild>
               <Link href="/marketing/campaigns">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Campaigns
+                Retour aux Campagnes
               </Link>
             </Button>
             {canCancel && (
@@ -97,7 +97,7 @@ export default function CampaignDetailPage() {
                 onClick={() => setShowCancel(true)}
               >
                 <Ban className="mr-2 h-4 w-4" />
-                Cancel Campaign
+                Annuler la campagne
               </Button>
             )}
           </div>
@@ -108,7 +108,7 @@ export default function CampaignDetailPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-3">
-            Campaign Details
+            Détails de la campagne
             <StatusBadge
               status={campaign.status}
               type="campaignStatus"
@@ -119,13 +119,13 @@ export default function CampaignDetailPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
               <p className="text-xs font-medium text-muted-foreground">
-                Subject
+                Objet
               </p>
               <p className="text-sm">{campaign.subject}</p>
             </div>
             <div>
               <p className="text-xs font-medium text-muted-foreground">
-                From
+                De
               </p>
               <p className="text-sm">
                 {campaign.fromName} &lt;{campaign.fromEmail}&gt;
@@ -133,13 +133,13 @@ export default function CampaignDetailPage() {
             </div>
             <div>
               <p className="text-xs font-medium text-muted-foreground">
-                Template
+                Modèle
               </p>
               <p className="text-sm">{campaign.template?.name || '-'}</p>
             </div>
             <div>
               <p className="text-xs font-medium text-muted-foreground">
-                Created
+                Créée le
               </p>
               <p className="text-sm">
                 {format(new Date(campaign.createdAt), 'MMM d, yyyy HH:mm')}
@@ -148,7 +148,7 @@ export default function CampaignDetailPage() {
             {campaign.scheduledAt && (
               <div>
                 <p className="text-xs font-medium text-muted-foreground">
-                  Scheduled
+                  Planifiée
                 </p>
                 <p className="text-sm">
                   {format(
@@ -161,7 +161,7 @@ export default function CampaignDetailPage() {
             {campaign.sentAt && (
               <div>
                 <p className="text-xs font-medium text-muted-foreground">
-                  Sent
+                  Envoyée
                 </p>
                 <p className="text-sm">
                   {format(new Date(campaign.sentAt), 'MMM d, yyyy HH:mm')}
@@ -176,7 +176,7 @@ export default function CampaignDetailPage() {
               <Separator className="my-4" />
               <div>
                 <p className="text-xs font-medium text-muted-foreground mb-2">
-                  Recipient Lists
+                  Listes de destinataires
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {campaign.campaignLists.map((cl) => (
@@ -194,7 +194,7 @@ export default function CampaignDetailPage() {
       {/* Analytics section */}
       {showAnalytics && (
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold">Campaign Analytics</h2>
+          <h2 className="text-lg font-semibold">Analyses de la campagne</h2>
           <CampaignAnalyticsDashboard campaignId={campaign.id} />
         </div>
       )}
@@ -202,9 +202,9 @@ export default function CampaignDetailPage() {
       <ConfirmDialog
         open={showCancel}
         onOpenChange={setShowCancel}
-        title="Cancel Campaign"
-        description={`Are you sure you want to cancel "${campaign.name}"? This action cannot be undone.`}
-        confirmLabel="Cancel Campaign"
+        title="Annuler la campagne"
+        description={`Êtes-vous sûr de vouloir annuler « ${campaign.name} » ? Cette action est irréversible.`}
+        confirmLabel="Annuler la campagne"
         variant="destructive"
         onConfirm={handleCancel}
         isLoading={isCancelling}

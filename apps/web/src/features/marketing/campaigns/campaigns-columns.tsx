@@ -26,7 +26,7 @@ export function getCampaignColumns(
     {
       accessorKey: 'name',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Name" />
+        <DataTableColumnHeader column={column} title="Nom" />
       ),
       cell: ({ row }) => (
         <Link
@@ -40,7 +40,7 @@ export function getCampaignColumns(
     {
       accessorKey: 'subject',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Subject" />
+        <DataTableColumnHeader column={column} title="Objet" />
       ),
       cell: ({ row }) => (
         <span className="text-muted-foreground max-w-[200px] truncate block">
@@ -51,7 +51,7 @@ export function getCampaignColumns(
     {
       accessorKey: 'status',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader column={column} title="Statut" />
       ),
       cell: ({ row }) => (
         <StatusBadge
@@ -63,7 +63,7 @@ export function getCampaignColumns(
     {
       accessorKey: 'scheduledAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Scheduled" />
+        <DataTableColumnHeader column={column} title="Planifié" />
       ),
       cell: ({ row }) => {
         const date = row.getValue('scheduledAt') as string | null;
@@ -75,7 +75,7 @@ export function getCampaignColumns(
     {
       accessorKey: 'sentAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Sent" />
+        <DataTableColumnHeader column={column} title="Envoyé" />
       ),
       cell: ({ row }) => {
         const date = row.getValue('sentAt') as string | null;
@@ -87,7 +87,7 @@ export function getCampaignColumns(
     {
       accessorKey: 'createdAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Created" />
+        <DataTableColumnHeader column={column} title="Créé" />
       ),
       cell: ({ row }) =>
         format(new Date(row.getValue('createdAt')), 'MMM d, yyyy'),
@@ -103,7 +103,7 @@ export function getCampaignColumns(
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Ouvrir le menu</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -111,7 +111,7 @@ export function getCampaignColumns(
               <DropdownMenuItem asChild>
                 <Link href={`/marketing/campaigns/${campaign.id}`}>
                   <Eye className="mr-2 h-4 w-4" />
-                  View Details
+                  Voir les détails
                 </Link>
               </DropdownMenuItem>
               {canCancel && (
@@ -120,7 +120,7 @@ export function getCampaignColumns(
                   onClick={() => actions.onCancel(campaign)}
                 >
                   <Ban className="mr-2 h-4 w-4" />
-                  Cancel
+                  Annuler
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

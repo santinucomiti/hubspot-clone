@@ -40,7 +40,7 @@ export default function ContactListDetailPage() {
       setList(listData);
       setContacts(contactsData);
     } catch {
-      toast.error('Failed to load contact list');
+      toast.error('Impossible de charger la liste de contacts');
       router.push('/marketing/lists');
     } finally {
       setIsLoading(false);
@@ -56,11 +56,11 @@ export default function ContactListDetailPage() {
     setIsAddingMembers(true);
     try {
       await addContactListMembers(params.id, newMemberIds);
-      toast.success(`Added ${newMemberIds.length} contact(s) to the list`);
+      toast.success(`${newMemberIds.length} contact(s) ajouté(s) à la liste`);
       setNewMemberIds([]);
       fetchData();
     } catch {
-      toast.error('Failed to add members');
+      toast.error('Impossible d\'ajouter des membres');
     } finally {
       setIsAddingMembers(false);
     }
@@ -69,9 +69,9 @@ export default function ContactListDetailPage() {
   if (isLoading || !list) {
     return (
       <div className="space-y-6">
-        <PageHeader title="Contact List" />
+        <PageHeader title="Liste de contacts" />
         <div className="h-96 flex items-center justify-center text-muted-foreground">
-          Loading...
+          Chargement...
         </div>
       </div>
     );
@@ -80,7 +80,7 @@ export default function ContactListDetailPage() {
   if (isEditing) {
     return (
       <div className="space-y-6">
-        <PageHeader title={`Edit: ${list.name}`} />
+        <PageHeader title={`Modifier : ${list.name}`} />
         <ContactListForm
           initialData={list}
           initialMembers={contacts.map((c) => c.id)}
@@ -93,16 +93,16 @@ export default function ContactListDetailPage() {
     <div className="space-y-6">
       <PageHeader
         title={list.name}
-        description={`${list.type.toLowerCase()} list`}
+        description={`Liste ${list.type.toLowerCase()}`}
         actions={
           <div className="flex items-center gap-2">
             <Button variant="outline" asChild>
               <Link href="/marketing/lists">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Lists
+                Retour aux Listes
               </Link>
             </Button>
-            <Button onClick={() => setIsEditing(true)}>Edit List</Button>
+            <Button onClick={() => setIsEditing(true)}>Modifier la liste</Button>
           </div>
         }
       />
@@ -112,13 +112,13 @@ export default function ContactListDetailPage() {
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Users className="h-5 w-5" />
-            Members ({contacts.length})
+            Membres ({contacts.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
           {contacts.length === 0 ? (
             <p className="text-sm text-muted-foreground py-4 text-center">
-              No contacts in this list yet.
+              Aucun contact dans cette liste pour le moment.
             </p>
           ) : (
             <div className="space-y-2">
@@ -149,7 +149,7 @@ export default function ContactListDetailPage() {
       {list.type === 'STATIC' && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Add Members</CardTitle>
+            <CardTitle className="text-lg">Ajouter des membres</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <ContactPicker
@@ -162,8 +162,8 @@ export default function ContactListDetailPage() {
               disabled={newMemberIds.length === 0 || isAddingMembers}
             >
               {isAddingMembers
-                ? 'Adding...'
-                : `Add ${newMemberIds.length} Contact${newMemberIds.length !== 1 ? 's' : ''}`}
+                ? 'Ajout en cours...'
+                : `Ajouter ${newMemberIds.length} contact${newMemberIds.length !== 1 ? 's' : ''}`}
             </Button>
           </CardContent>
         </Card>
@@ -173,7 +173,7 @@ export default function ContactListDetailPage() {
       {list.type === 'DYNAMIC' && list.filters && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Filter Rules</CardTitle>
+            <CardTitle className="text-lg">Règles de filtrage</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -188,7 +188,7 @@ export default function ContactListDetailPage() {
                   >
                     {index > 0 && (
                       <span className="text-muted-foreground font-medium">
-                        AND
+                        ET
                       </span>
                     )}
                     <Badge variant="secondary">{filter.field}</Badge>

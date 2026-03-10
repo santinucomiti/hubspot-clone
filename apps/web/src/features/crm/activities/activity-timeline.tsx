@@ -20,10 +20,10 @@ import { cn } from '@/lib/utils';
 
 const typeConfig: Record<Activity['type'], { icon: typeof StickyNote; label: string; color: string }> = {
   NOTE: { icon: StickyNote, label: 'Note', color: 'text-blue-500' },
-  EMAIL: { icon: Mail, label: 'Email', color: 'text-purple-500' },
-  CALL: { icon: Phone, label: 'Call', color: 'text-green-500' },
-  MEETING: { icon: Users, label: 'Meeting', color: 'text-orange-500' },
-  TASK: { icon: CheckSquare, label: 'Task', color: 'text-yellow-600' },
+  EMAIL: { icon: Mail, label: 'E-mail', color: 'text-purple-500' },
+  CALL: { icon: Phone, label: 'Appel', color: 'text-green-500' },
+  MEETING: { icon: Users, label: 'Réunion', color: 'text-orange-500' },
+  TASK: { icon: CheckSquare, label: 'Tâche', color: 'text-yellow-600' },
 };
 
 function formatDuration(seconds: number): string {
@@ -90,7 +90,7 @@ export function ActivityTimeline({
       setActivities(result.data);
       setTotal(result.meta.total);
     } catch {
-      setError('Failed to load activities');
+      setError('Échec du chargement des activités');
     } finally {
       setLoading(false);
     }
@@ -121,7 +121,7 @@ export function ActivityTimeline({
       <div className="flex flex-col items-center gap-2 py-8 text-muted-foreground">
         <AlertCircle className="h-8 w-8" />
         <p>{error}</p>
-        <Button variant="outline" size="sm" onClick={fetchActivities}>Retry</Button>
+        <Button variant="outline" size="sm" onClick={fetchActivities}>Réessayer</Button>
       </div>
     );
   }
@@ -130,10 +130,10 @@ export function ActivityTimeline({
     return (
       <div className="flex flex-col items-center gap-2 py-8 text-muted-foreground">
         <Clock className="h-8 w-8" />
-        <p>No activities yet</p>
+        <p>Pas encore d'activités</p>
         {onAddActivity && (
           <Button variant="outline" size="sm" onClick={onAddActivity}>
-            Add Activity
+            Ajouter une activité
           </Button>
         )}
       </div>
@@ -155,13 +155,13 @@ export function ActivityTimeline({
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 pt-4">
           <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(page - 1)}>
-            Previous
+            Précédent
           </Button>
           <span className="text-sm text-muted-foreground">
-            Page {page} of {totalPages}
+            Page {page} sur {totalPages}
           </span>
           <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
-            Next
+            Suivant
           </Button>
         </div>
       )}
@@ -211,7 +211,7 @@ function ActivityTypeDetails({ activity }: { activity: Activity }) {
     case 'CALL':
       return activity.duration ? (
         <p className="mt-1 text-sm text-muted-foreground flex items-center gap-1">
-          <Phone className="h-3 w-3" /> Duration: {formatDuration(activity.duration)}
+          <Phone className="h-3 w-3" /> Durée : {formatDuration(activity.duration)}
         </p>
       ) : null;
 
@@ -230,11 +230,11 @@ function ActivityTypeDetails({ activity }: { activity: Activity }) {
         <div className="mt-1 flex items-center gap-2 text-sm">
           {activity.completedAt ? (
             <span className="flex items-center gap-1 text-green-600">
-              <CheckCircle2 className="h-3 w-3" /> Completed {formatDate(activity.completedAt)}
+              <CheckCircle2 className="h-3 w-3" /> Terminé le {formatDate(activity.completedAt)}
             </span>
           ) : activity.dueAt ? (
             <span className={cn('flex items-center gap-1', isOverdue ? 'text-destructive' : 'text-muted-foreground')}>
-              <Clock className="h-3 w-3" /> Due {formatDate(activity.dueAt)}
+              <Clock className="h-3 w-3" /> Échéance le {formatDate(activity.dueAt)}
             </span>
           ) : null}
         </div>

@@ -37,7 +37,7 @@ export default function DealDetailPage() {
       const pipelineData = await getPipeline(dealData.pipelineId);
       setPipeline(pipelineData);
     } catch {
-      toast.error('Failed to load deal');
+      toast.error('Impossible de charger l\'affaire');
       router.push('/deals');
     } finally {
       setIsLoading(false);
@@ -53,11 +53,11 @@ export default function DealDetailPage() {
     setIsSaving(true);
     try {
       await updateDeal(deal.id, data);
-      toast.success('Deal updated successfully');
+      toast.success('Affaire mise à jour avec succès');
       router.push(`/deals/${deal.id}`);
       fetchDeal();
     } catch {
-      toast.error('Failed to update deal');
+      toast.error('Impossible de mettre à jour l\'affaire');
     } finally {
       setIsSaving(false);
     }
@@ -81,7 +81,7 @@ export default function DealDetailPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title={isEditing ? 'Edit Deal' : deal.name}
+        title={isEditing ? 'Modifier l\'affaire' : deal.name}
         actions={
           <Button
             variant="ghost"
@@ -91,7 +91,7 @@ export default function DealDetailPage() {
             }
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {isEditing ? 'Cancel' : 'Back to Deals'}
+            {isEditing ? 'Annuler' : 'Retour aux Affaires'}
           </Button>
         }
       />

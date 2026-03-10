@@ -13,17 +13,17 @@ import { Variable } from 'lucide-react';
 
 const VARIABLES = [
   { group: 'Contact', items: [
-    { label: 'First Name', value: '{{contact.firstName}}' },
-    { label: 'Last Name', value: '{{contact.lastName}}' },
-    { label: 'Email', value: '{{contact.email}}' },
-    { label: 'Phone', value: '{{contact.phone}}' },
+    { label: 'Prénom', value: '{{contact.firstName}}' },
+    { label: 'Nom de famille', value: '{{contact.lastName}}' },
+    { label: 'E-mail', value: '{{contact.email}}' },
+    { label: 'Téléphone', value: '{{contact.phone}}' },
   ]},
-  { group: 'Company', items: [
-    { label: 'Company Name', value: '{{company.name}}' },
-    { label: 'Domain', value: '{{company.domain}}' },
+  { group: 'Entreprise', items: [
+    { label: 'Nom de l\'entreprise', value: '{{company.name}}' },
+    { label: 'Domaine', value: '{{company.domain}}' },
   ]},
-  { group: 'Links', items: [
-    { label: 'Unsubscribe Link', value: '{{unsubscribeUrl}}' },
+  { group: 'Liens', items: [
+    { label: 'Lien de désabonnement', value: '{{unsubscribeUrl}}' },
   ]},
 ];
 
@@ -37,7 +37,7 @@ export function VariableInserter({ onInsert }: VariableInserterProps) {
       <DropdownMenuTrigger asChild>
         <Button type="button" variant="outline" size="sm">
           <Variable className="mr-2 h-4 w-4" />
-          Insert Variable
+          Insérer une variable
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">

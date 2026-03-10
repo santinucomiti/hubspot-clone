@@ -13,12 +13,12 @@ export default function TicketsPage() {
     <div className="space-y-6">
       <PageHeader
         title="Tickets"
-        description="Manage support tickets and track customer issues."
+        description="Gérez les tickets de support et suivez les problèmes clients."
         actions={
           <Button asChild>
             <Link href="/tickets/new">
               <Plus className="mr-2 h-4 w-4" />
-              Create ticket
+              Créer un ticket
             </Link>
           </Button>
         }
@@ -28,9 +28,9 @@ export default function TicketsPage() {
         <TabsList>
           <TabsTrigger value="list">
             <Ticket className="mr-2 h-4 w-4" />
-            All Tickets
+            Tous les tickets
           </TabsTrigger>
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="dashboard">Tableau de bord</TabsTrigger>
         </TabsList>
         <TabsContent value="list" className="mt-4">
           <TicketsTable />

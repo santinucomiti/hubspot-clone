@@ -49,7 +49,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
       const data = await getTicket(ticketId);
       setTicket(data);
     } catch {
-      toast.error('Failed to load ticket');
+      toast.error('Échec du chargement du ticket');
       router.push('/tickets');
     } finally {
       setIsLoading(false);
@@ -79,10 +79,10 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
     setIsDeleting(true);
     try {
       await deleteTicket(ticketId);
-      toast.success('Ticket deleted');
+      toast.success('Ticket supprimé');
       router.push('/tickets');
     } catch {
-      toast.error('Failed to delete ticket');
+      toast.error('Échec de la suppression du ticket');
     } finally {
       setIsDeleting(false);
     }
@@ -116,7 +116,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
         <div className="flex-1">
           <h1 className="text-2xl font-bold tracking-tight">{ticket.subject}</h1>
           <p className="text-sm text-muted-foreground">
-            Created {new Date(ticket.createdAt).toLocaleDateString()} via{' '}
+            Créé le {new Date(ticket.createdAt).toLocaleDateString()} via{' '}
             {ticket.source.toLowerCase()}
           </p>
         </div>
@@ -125,7 +125,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
           className="text-destructive"
           onClick={() => setShowDeleteDialog(true)}
         >
-          Delete
+          Supprimer
         </Button>
       </div>
 
@@ -172,21 +172,21 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
           {/* Ticket properties */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Details</CardTitle>
+              <CardTitle className="text-base">Détails</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Status</span>
+                <span className="text-sm text-muted-foreground">Statut</span>
                 <StatusBadge status={ticket.status} type="ticketStatus" />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Priority</span>
+                <span className="text-sm text-muted-foreground">Priorité</span>
                 <StatusBadge status={ticket.priority} type="ticketPriority" />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Category</span>
+                <span className="text-sm text-muted-foreground">Catégorie</span>
                 <span className="text-sm">{ticket.category || '\u2014'}</span>
               </div>
               <Separator />
@@ -198,11 +198,11 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
               </div>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Owner</span>
+                <span className="text-sm text-muted-foreground">Propriétaire</span>
                 <span className="text-sm">
                   {ticket.owner
                     ? `${ticket.owner.firstName} ${ticket.owner.lastName}`
-                    : 'Unassigned'}
+                    : 'Non assigné'}
                 </span>
               </div>
             </CardContent>
@@ -226,7 +226,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
                   </Link>
                 ) : (
                   <span className="text-sm text-muted-foreground">
-                    No contact linked
+                    Aucun contact lié
                   </span>
                 )}
               </div>
@@ -243,7 +243,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
                   </Link>
                 ) : (
                   <span className="text-sm text-muted-foreground">
-                    No company linked
+                    Aucune entreprise liée
                   </span>
                 )}
               </div>
@@ -260,7 +260,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
                   </Link>
                 ) : (
                   <span className="text-sm text-muted-foreground">
-                    No deal linked
+                    Aucune affaire liée
                   </span>
                 )}
               </div>
@@ -271,7 +271,7 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
           {ticket.statusHistory.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Status History</CardTitle>
+                <CardTitle className="text-base">Historique des statuts</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -282,13 +282,13 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
                         <span className="font-medium">
                           {entry.changedBy.firstName} {entry.changedBy.lastName}
                         </span>{' '}
-                        changed status from{' '}
+                        a changé le statut de{' '}
                         <StatusBadge
                           status={entry.fromStatus}
                           type="ticketStatus"
                           className="mx-1 inline-flex"
                         />{' '}
-                        to{' '}
+                        à{' '}
                         <StatusBadge
                           status={entry.toStatus}
                           type="ticketStatus"
@@ -310,9 +310,9 @@ export function TicketDetail({ ticketId }: TicketDetailProps) {
       <ConfirmDialog
         open={showDeleteDialog}
         onOpenChange={setShowDeleteDialog}
-        title="Delete ticket"
-        description={`Are you sure you want to delete "${ticket.subject}"? This action cannot be undone.`}
-        confirmLabel="Delete"
+        title="Supprimer le ticket"
+        description={`Êtes-vous sûr de vouloir supprimer "${ticket.subject}" ? Cette action est irréversible.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

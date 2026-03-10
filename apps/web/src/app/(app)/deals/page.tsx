@@ -46,7 +46,7 @@ export default function DealsPage() {
         setSelectedPipelineId(defaultPipeline.id);
       }
     } catch {
-      toast.error('Failed to load pipelines');
+      toast.error('Impossible de charger les pipelines');
     }
   }, []);
 
@@ -59,7 +59,7 @@ export default function DealsPage() {
       });
       setDeals(response.data);
     } catch {
-      toast.error('Failed to load deals');
+      toast.error('Impossible de charger les affaires');
     } finally {
       setIsLoading(false);
     }
@@ -92,12 +92,12 @@ export default function DealsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Deals"
-        description="Manage your sales pipeline and track deal progress"
+        title="Affaires"
+        description="Gérez votre pipeline de ventes et suivez l'avancement des affaires"
         actions={
           <Button onClick={() => router.push('/deals/new')}>
             <Plus className="mr-2 h-4 w-4" />
-            New Deal
+            Nouvelle affaire
           </Button>
         }
       />
@@ -111,7 +111,7 @@ export default function DealsPage() {
               onValueChange={setSelectedPipelineId}
             >
               <SelectTrigger className="w-[220px]">
-                <SelectValue placeholder="Select pipeline" />
+                <SelectValue placeholder="Sélectionner un pipeline" />
               </SelectTrigger>
               <SelectContent>
                 {pipelines.map((pipeline) => (
@@ -131,15 +131,15 @@ export default function DealsPage() {
           <TabsList>
             <TabsTrigger value="kanban" className="gap-1.5">
               <LayoutGrid className="h-4 w-4" />
-              Board
+              Tableau
             </TabsTrigger>
             <TabsTrigger value="list" className="gap-1.5">
               <List className="h-4 w-4" />
-              List
+              Liste
             </TabsTrigger>
             <TabsTrigger value="forecast" className="gap-1.5">
               <BarChart3 className="h-4 w-4" />
-              Forecast
+              Prévisions
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -149,12 +149,12 @@ export default function DealsPage() {
       {deals.length === 0 && !isLoading ? (
         <EmptyState
           icon={Handshake}
-          title="No deals yet"
-          description="Create your first deal to start tracking your sales pipeline."
+          title="Aucune affaire pour le moment"
+          description="Créez votre première affaire pour commencer à suivre votre pipeline de ventes."
           action={
             <Button onClick={() => router.push('/deals/new')}>
               <Plus className="mr-2 h-4 w-4" />
-              Create Deal
+              Créer une affaire
             </Button>
           }
         />

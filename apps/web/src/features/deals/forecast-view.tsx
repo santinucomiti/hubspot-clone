@@ -53,7 +53,7 @@ export function ForecastView() {
           setSelectedPipelineId(defaultPipeline.id);
         }
       } catch {
-        toast.error('Failed to load pipelines');
+        toast.error('Échec du chargement des pipelines');
       }
     }
     loadPipelines();
@@ -66,7 +66,7 @@ export function ForecastView() {
       const data = await getForecast(selectedPipelineId, period);
       setForecast(data);
     } catch {
-      toast.error('Failed to load forecast data');
+      toast.error('Échec du chargement des données de prévision');
     } finally {
       setIsLoading(false);
     }
@@ -83,7 +83,7 @@ export function ForecastView() {
 
   return (
     <div className="space-y-6">
-      {/* Controls */}
+      {/* Contrôles */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         {pipelines.length > 1 && (
           <Select
@@ -91,7 +91,7 @@ export function ForecastView() {
             onValueChange={setSelectedPipelineId}
           >
             <SelectTrigger className="w-[220px]">
-              <SelectValue placeholder="Select pipeline" />
+              <SelectValue placeholder="Sélectionner un pipeline" />
             </SelectTrigger>
             <SelectContent>
               {pipelines.map((pipeline) => (
@@ -107,9 +107,9 @@ export function ForecastView() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="month">Monthly</SelectItem>
-            <SelectItem value="quarter">Quarterly</SelectItem>
-            <SelectItem value="year">Yearly</SelectItem>
+            <SelectItem value="month">Mensuel</SelectItem>
+            <SelectItem value="quarter">Trimestriel</SelectItem>
+            <SelectItem value="year">Annuel</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -124,12 +124,12 @@ export function ForecastView() {
         </div>
       ) : forecast ? (
         <>
-          {/* Summary Cards */}
+          {/* Cartes de résumé */}
           <div className="grid gap-4 md:grid-cols-2">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Weighted Forecast
+                  Prévision pondérée
                 </CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -138,7 +138,7 @@ export function ForecastView() {
                   {formatCurrency(forecast.totalWeighted)}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Adjusted by stage probability
+                  Ajusté par la probabilité de l&apos;étape
                 </p>
               </CardContent>
             </Card>
@@ -146,7 +146,7 @@ export function ForecastView() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Pipeline Value
+                  Valeur totale du pipeline
                 </CardTitle>
                 <BarChart3 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -155,21 +155,21 @@ export function ForecastView() {
                   {formatCurrency(forecast.totalUnweighted)}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Full deal amounts before weighting
+                  Montants complets avant pondération
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Bar Chart Visualization */}
+          {/* Visualisation en barres */}
           {forecast.entries.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">
-                  Forecast by Period
+                  Prévisions par période
                 </CardTitle>
                 <CardDescription>
-                  Deal amounts weighted by stage probability
+                  Montants des affaires pondérés par la probabilité de l&apos;étape
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -179,8 +179,8 @@ export function ForecastView() {
                       <div className="flex items-center justify-between text-sm">
                         <span className="font-medium">{entry.period}</span>
                         <span className="text-muted-foreground">
-                          {formatCurrency(entry.weightedAmount)} weighted
-                          &middot; {entry.dealCount} deals
+                          {formatCurrency(entry.weightedAmount)} pondéré
+                          &middot; {entry.dealCount} affaires
                         </span>
                       </div>
                       <div className="h-4 w-full rounded-full bg-muted overflow-hidden">
@@ -193,7 +193,7 @@ export function ForecastView() {
                       </div>
                       <div className="flex justify-between text-xs text-muted-foreground">
                         <span>
-                          Total: {formatCurrency(entry.totalAmount)}
+                          Total : {formatCurrency(entry.totalAmount)}
                         </span>
                       </div>
                     </div>
@@ -203,20 +203,20 @@ export function ForecastView() {
             </Card>
           )}
 
-          {/* Detail Table */}
+          {/* Tableau de détails */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Forecast Details</CardTitle>
+              <CardTitle className="text-base">Détails des prévisions</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Period</TableHead>
-                    <TableHead className="text-right">Deals</TableHead>
-                    <TableHead className="text-right">Total Amount</TableHead>
+                    <TableHead>Période</TableHead>
+                    <TableHead className="text-right">Affaires</TableHead>
+                    <TableHead className="text-right">Montant total</TableHead>
                     <TableHead className="text-right">
-                      Weighted Amount
+                      Montant pondéré
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -244,7 +244,7 @@ export function ForecastView() {
                         colSpan={4}
                         className="text-center text-muted-foreground"
                       >
-                        No forecast data available
+                        Aucune donnée de prévision disponible
                       </TableCell>
                     </TableRow>
                   )}

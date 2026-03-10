@@ -33,18 +33,18 @@ import {
 } from '@/lib/api/tickets';
 
 const statusOptions: { label: string; value: TicketStatus }[] = [
-  { label: 'Open', value: 'OPEN' },
-  { label: 'In Progress', value: 'IN_PROGRESS' },
-  { label: 'Waiting', value: 'WAITING' },
-  { label: 'Resolved', value: 'RESOLVED' },
-  { label: 'Closed', value: 'CLOSED' },
+  { label: 'Ouvert', value: 'OPEN' },
+  { label: 'En cours', value: 'IN_PROGRESS' },
+  { label: 'En attente', value: 'WAITING' },
+  { label: 'Résolu', value: 'RESOLVED' },
+  { label: 'Fermé', value: 'CLOSED' },
 ];
 
 const priorityOptions: { label: string; value: TicketPriority }[] = [
-  { label: 'Low', value: 'LOW' },
-  { label: 'Medium', value: 'MEDIUM' },
-  { label: 'High', value: 'HIGH' },
-  { label: 'Urgent', value: 'URGENT' },
+  { label: 'Basse', value: 'LOW' },
+  { label: 'Moyenne', value: 'MEDIUM' },
+  { label: 'Haute', value: 'HIGH' },
+  { label: 'Urgente', value: 'URGENT' },
 ];
 
 export function TicketsTable() {
@@ -64,7 +64,7 @@ export function TicketsTable() {
       const response = await getTickets(filters);
       setTickets(response.data);
     } catch {
-      toast.error('Failed to load tickets');
+      toast.error('Échec du chargement des tickets');
     } finally {
       setIsLoading(false);
     }
@@ -79,11 +79,11 @@ export function TicketsTable() {
     setIsDeleting(true);
     try {
       await deleteTicket(deleteTarget.id);
-      toast.success('Ticket deleted');
+      toast.success('Ticket supprimé');
       setDeleteTarget(null);
       fetchTickets();
     } catch {
-      toast.error('Failed to delete ticket');
+      toast.error('Échec de la suppression du ticket');
     } finally {
       setIsDeleting(false);
     }
@@ -103,7 +103,7 @@ export function TicketsTable() {
   const columns: ColumnDef<Ticket>[] = [
     {
       accessorKey: 'subject',
-      header: 'Subject',
+      header: 'Objet',
       cell: ({ row }) => (
         <button
           className="text-left font-medium text-primary hover:underline"
@@ -115,21 +115,21 @@ export function TicketsTable() {
     },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: 'Statut',
       cell: ({ row }) => (
         <StatusBadge status={row.original.status} type="ticketStatus" />
       ),
     },
     {
       accessorKey: 'priority',
-      header: 'Priority',
+      header: 'Priorité',
       cell: ({ row }) => (
         <StatusBadge status={row.original.priority} type="ticketPriority" />
       ),
     },
     {
       accessorKey: 'category',
-      header: 'Category',
+      header: 'Catégorie',
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {row.original.category || '\u2014'}
@@ -138,13 +138,13 @@ export function TicketsTable() {
     },
     {
       accessorKey: 'owner',
-      header: 'Owner',
+      header: 'Propriétaire',
       cell: ({ row }) => {
         const owner = row.original.owner;
         return owner ? (
           <span>{owner.firstName} {owner.lastName}</span>
         ) : (
-          <span className="text-muted-foreground">Unassigned</span>
+          <span className="text-muted-foreground">Non assigné</span>
         );
       },
     },
@@ -170,7 +170,7 @@ export function TicketsTable() {
     },
     {
       accessorKey: 'createdAt',
-      header: 'Created',
+      header: 'Créé',
       cell: ({ row }) => (
         <span className="text-muted-foreground">
           {new Date(row.original.createdAt).toLocaleDateString()}
@@ -183,7 +183,7 @@ export function TicketsTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Ouvrir le menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -191,14 +191,14 @@ export function TicketsTable() {
             <DropdownMenuItem
               onClick={() => router.push(`/tickets/${row.original.id}`)}
             >
-              View details
+              Voir les détails
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="text-destructive"
               onClick={() => setDeleteTarget(row.original)}
             >
-              Delete
+              Supprimer
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -215,10 +215,10 @@ export function TicketsTable() {
         }
       >
         <SelectTrigger className="h-8 w-[140px]">
-          <SelectValue placeholder="Status" />
+          <SelectValue placeholder="Statut" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="ALL">All statuses</SelectItem>
+          <SelectItem value="ALL">Tous les statuts</SelectItem>
           {statusOptions.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>
               {opt.label}
@@ -234,10 +234,10 @@ export function TicketsTable() {
         }
       >
         <SelectTrigger className="h-8 w-[140px]">
-          <SelectValue placeholder="Priority" />
+          <SelectValue placeholder="Priorité" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="ALL">All priorities</SelectItem>
+          <SelectItem value="ALL">Toutes les priorités</SelectItem>
           {priorityOptions.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>
               {opt.label}
@@ -254,16 +254,16 @@ export function TicketsTable() {
         columns={columns}
         data={tickets}
         searchKey="subject"
-        searchPlaceholder="Search tickets..."
+        searchPlaceholder="Rechercher des tickets..."
         toolbar={filterToolbar}
       />
 
       <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title="Delete ticket"
-        description={`Are you sure you want to delete "${deleteTarget?.subject}"? This action cannot be undone.`}
-        confirmLabel="Delete"
+        title="Supprimer le ticket"
+        description={`Êtes-vous sûr de vouloir supprimer "${deleteTarget?.subject}" ? Cette action est irréversible.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

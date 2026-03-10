@@ -9,7 +9,7 @@ export default function NewCompanyPage() {
   return (
     <div className="space-y-6">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/companies"><ArrowLeft className="h-4 w-4 mr-1" /> Back to Companies</Link>
+        <Link href="/companies"><ArrowLeft className="h-4 w-4 mr-1" /> Retour aux Entreprises</Link>
       </Button>
       <CompanyForm />
     </div>

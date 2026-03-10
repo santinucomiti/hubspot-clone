@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   searchKey,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = 'Rechercher...',
   toolbar,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="ml-auto h-8">
               <Settings2 className="mr-2 h-4 w-4" />
-              Columns
+              Colonnes
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -157,7 +157,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Aucun résultat.
                 </TableCell>
               </TableRow>
             )}

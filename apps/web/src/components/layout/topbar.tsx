@@ -16,7 +16,7 @@ export function Topbar() {
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="shrink-0 md:hidden">
             <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
+            <span className="sr-only">Basculer le menu de navigation</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">

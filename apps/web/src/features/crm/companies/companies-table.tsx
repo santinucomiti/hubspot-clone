@@ -31,10 +31,10 @@ export function CompaniesTable({ companies, onRefresh }: CompaniesTableProps) {
     setIsDeleting(true);
     try {
       await deleteCompany(deleteId);
-      toast.success('Company deleted');
+      toast.success('Entreprise supprimée');
       onRefresh();
     } catch {
-      toast.error('Failed to delete company');
+      toast.error('Échec de la suppression de l\'entreprise');
     } finally {
       setIsDeleting(false);
       setDeleteId(null);
@@ -44,19 +44,19 @@ export function CompaniesTable({ companies, onRefresh }: CompaniesTableProps) {
   const columns: ColumnDef<Company>[] = useMemo(() => [
     {
       accessorKey: 'name',
-      header: 'Name',
+      header: 'Nom',
       cell: ({ row }) => (
         <Link href={`/companies/${row.original.id}`} className="font-medium text-primary hover:underline">
           {row.original.name}
         </Link>
       ),
     },
-    { accessorKey: 'domain', header: 'Domain', cell: ({ row }) => row.original.domain || '\u2014' },
-    { accessorKey: 'industry', header: 'Industry', cell: ({ row }) => row.original.industry || '\u2014' },
-    { accessorKey: 'size', header: 'Size', cell: ({ row }) => row.original.size || '\u2014' },
+    { accessorKey: 'domain', header: 'Domaine', cell: ({ row }) => row.original.domain || '\u2014' },
+    { accessorKey: 'industry', header: 'Secteur d\'activité', cell: ({ row }) => row.original.industry || '\u2014' },
+    { accessorKey: 'size', header: 'Taille', cell: ({ row }) => row.original.size || '\u2014' },
     {
       accessorKey: 'owner',
-      header: 'Owner',
+      header: 'Propriétaire',
       cell: ({ row }) => `${row.original.owner.firstName} ${row.original.owner.lastName}`,
     },
     {
@@ -67,10 +67,10 @@ export function CompaniesTable({ companies, onRefresh }: CompaniesTableProps) {
             <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem asChild><Link href={`/companies/${row.original.id}`}>View</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href={`/companies/${row.original.id}?edit=true`}>Edit</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href={`/companies/${row.original.id}`}>Voir</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href={`/companies/${row.original.id}?edit=true`}>Modifier</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive" onClick={() => setDeleteId(row.original.id)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive" onClick={() => setDeleteId(row.original.id)}>Supprimer</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),
@@ -79,13 +79,13 @@ export function CompaniesTable({ companies, onRefresh }: CompaniesTableProps) {
 
   return (
     <>
-      <DataTable columns={columns} data={companies} searchKey="name" searchPlaceholder="Search companies..." />
+      <DataTable columns={columns} data={companies} searchKey="name" searchPlaceholder="Rechercher des entreprises..." />
       <ConfirmDialog
         open={!!deleteId}
         onOpenChange={(open) => !open && setDeleteId(null)}
-        title="Delete Company"
-        description="This action cannot be undone. This will permanently delete the company and disassociate its contacts."
-        confirmLabel="Delete"
+        title="Supprimer l'entreprise"
+        description="Cette action est irréversible. L'entreprise sera définitivement supprimée et ses contacts seront dissociés."
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

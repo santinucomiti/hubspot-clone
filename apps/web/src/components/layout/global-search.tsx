@@ -44,28 +44,28 @@ export function GlobalSearch() {
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 h-4 w-4" />
-        <span>Search...</span>
+        <span>Rechercher...</span>
         <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
           <span className="text-xs">&#8984;</span>K
         </kbd>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search contacts, companies, deals..." />
+        <CommandInput placeholder="Rechercher contacts, entreprises, affaires..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Quick Navigation">
+          <CommandEmpty>Aucun résultat trouvé.</CommandEmpty>
+          <CommandGroup heading="Navigation rapide">
             <CommandItem onSelect={() => handleSelect('/')}>
-              Home Dashboard
+              Tableau de bord
             </CommandItem>
             <CommandItem onSelect={() => handleSelect('/contacts')}>
               Contacts
             </CommandItem>
             <CommandItem onSelect={() => handleSelect('/companies')}>
-              Companies
+              Entreprises
             </CommandItem>
             <CommandItem onSelect={() => handleSelect('/deals')}>
-              Deals
+              Affaires
             </CommandItem>
             <CommandItem onSelect={() => handleSelect('/marketing')}>
               Marketing

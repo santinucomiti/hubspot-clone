@@ -26,7 +26,7 @@ import { createActivity, type CreateActivityRequest } from '@/lib/api/activities
 
 const activitySchema = z.object({
   type: z.enum(['NOTE', 'EMAIL', 'CALL', 'MEETING', 'TASK']),
-  subject: z.string().min(1, 'Subject is required').max(500),
+  subject: z.string().min(1, 'Le sujet est obligatoire').max(500),
   body: z.string().optional(),
   duration: z.string().optional(),
   startAt: z.string().optional(),
@@ -93,12 +93,12 @@ export function ActivityFormDialog({
       }
 
       await createActivity(payload);
-      toast.success('Activity created');
+      toast.success('Activité créée');
       form.reset();
       onOpenChange(false);
       onCreated?.();
     } catch {
-      toast.error('Failed to create activity');
+      toast.error('Échec de la création de l\'activité');
     } finally {
       setSubmitting(false);
     }
@@ -108,7 +108,7 @@ export function ActivityFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Log Activity</DialogTitle>
+          <DialogTitle>Enregistrer une activité</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
@@ -122,35 +122,35 @@ export function ActivityFormDialog({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="NOTE">Note</SelectItem>
-                <SelectItem value="EMAIL">Email</SelectItem>
-                <SelectItem value="CALL">Call</SelectItem>
-                <SelectItem value="MEETING">Meeting</SelectItem>
-                <SelectItem value="TASK">Task</SelectItem>
+                <SelectItem value="EMAIL">E-mail</SelectItem>
+                <SelectItem value="CALL">Appel</SelectItem>
+                <SelectItem value="MEETING">Réunion</SelectItem>
+                <SelectItem value="TASK">Tâche</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="subject">Subject</Label>
-            <Input id="subject" {...form.register('subject')} placeholder="Activity subject" />
+            <Label htmlFor="subject">Sujet</Label>
+            <Input id="subject" {...form.register('subject')} placeholder="Sujet de l'activité" />
             {form.formState.errors.subject && (
               <p className="text-sm text-destructive">{form.formState.errors.subject.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="body">Body</Label>
+            <Label htmlFor="body">Contenu</Label>
             <textarea
               id="body"
               {...form.register('body')}
               className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              placeholder="Details..."
+              placeholder="Détails..."
             />
           </div>
 
           {activityType === 'CALL' && (
             <div className="space-y-2">
-              <Label htmlFor="duration">Duration (seconds)</Label>
+              <Label htmlFor="duration">Durée (secondes)</Label>
               <Input id="duration" type="number" min={0} {...form.register('duration')} placeholder="300" />
             </div>
           )}
@@ -158,11 +158,11 @@ export function ActivityFormDialog({
           {activityType === 'MEETING' && (
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="startAt">Start</Label>
+                <Label htmlFor="startAt">Début</Label>
                 <Input id="startAt" type="datetime-local" {...form.register('startAt')} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="endAt">End</Label>
+                <Label htmlFor="endAt">Fin</Label>
                 <Input id="endAt" type="datetime-local" {...form.register('endAt')} />
               </div>
             </div>
@@ -170,17 +170,17 @@ export function ActivityFormDialog({
 
           {activityType === 'TASK' && (
             <div className="space-y-2">
-              <Label htmlFor="dueAt">Due Date</Label>
+              <Label htmlFor="dueAt">Date d'échéance</Label>
               <Input id="dueAt" type="datetime-local" {...form.register('dueAt')} />
             </div>
           )}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              Annuler
             </Button>
             <Button type="submit" disabled={submitting}>
-              {submitting ? 'Saving...' : 'Save Activity'}
+              {submitting ? 'Enregistrement...' : 'Enregistrer l\'activité'}
             </Button>
           </DialogFooter>
         </form>

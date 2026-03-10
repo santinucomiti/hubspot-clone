@@ -35,8 +35,8 @@ export default function CompanyDetailPage() {
   if (!company) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">Company not found</p>
-        <Button asChild variant="link"><Link href="/companies">Back to Companies</Link></Button>
+        <p className="text-muted-foreground">Entreprise non trouvée</p>
+        <Button asChild variant="link"><Link href="/companies">Retour aux Entreprises</Link></Button>
       </div>
     );
   }
@@ -44,7 +44,7 @@ export default function CompanyDetailPage() {
   return (
     <div className="space-y-6">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/companies"><ArrowLeft className="h-4 w-4 mr-1" /> Back to Companies</Link>
+        <Link href="/companies"><ArrowLeft className="h-4 w-4 mr-1" /> Retour aux Entreprises</Link>
       </Button>
       {isEditing ? <CompanyForm company={company} /> : <CompanyDetail company={company} />}
     </div>

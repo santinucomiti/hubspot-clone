@@ -17,23 +17,23 @@ import { PageHeader } from '@/components/page-header';
 
 const sections = [
   {
-    title: 'Contact Lists',
+    title: 'Listes de contacts',
     description:
-      'Organize your contacts into static or dynamic lists for targeted campaigns.',
+      'Organisez vos contacts en listes statiques ou dynamiques pour des campagnes ciblées.',
     href: '/marketing/lists',
     icon: List,
   },
   {
-    title: 'Email Templates',
+    title: 'Modèles d\'e-mail',
     description:
-      'Design reusable email templates with HTML content and personalization variables.',
+      'Concevez des modèles d\'e-mail réutilisables avec du contenu HTML et des variables de personnalisation.',
     href: '/marketing/templates',
     icon: FileText,
   },
   {
-    title: 'Campaigns',
+    title: 'Campagnes',
     description:
-      'Create, send, and track email marketing campaigns with detailed analytics.',
+      'Créez, envoyez et suivez des campagnes d\'e-mail marketing avec des analyses détaillées.',
     href: '/marketing/campaigns',
     icon: Megaphone,
   },
@@ -44,7 +44,7 @@ export default function MarketingPage() {
     <div className="space-y-6">
       <PageHeader
         title="Marketing"
-        description="Manage your email marketing — lists, templates, and campaigns."
+        description="Gérez votre marketing par e-mail — listes, modèles et campagnes."
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

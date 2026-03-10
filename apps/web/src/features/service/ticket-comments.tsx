@@ -25,7 +25,7 @@ import {
 } from '@/lib/api/tickets';
 
 const commentSchema = z.object({
-  body: z.string().min(1, 'Comment cannot be empty'),
+  body: z.string().min(1, 'Le commentaire ne peut pas être vide'),
 });
 
 type CommentFormValues = z.infer<typeof commentSchema>;
@@ -58,9 +58,9 @@ export function TicketComments({
       });
       onCommentAdded(comment);
       form.reset();
-      toast.success(isInternal ? 'Internal note added' : 'Reply added');
+      toast.success(isInternal ? 'Note interne ajoutée' : 'Réponse ajoutée');
     } catch {
-      toast.error('Failed to add comment');
+      toast.error('Échec de l\'ajout du commentaire');
     } finally {
       setIsSubmitting(false);
     }
@@ -77,7 +77,7 @@ export function TicketComments({
       <div className="space-y-4">
         {comments.length === 0 ? (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            No comments yet. Start the conversation below.
+            Aucun commentaire pour le moment. Commencez la conversation ci-dessous.
           </p>
         ) : (
           comments.map((comment) => (
@@ -106,7 +106,7 @@ export function TicketComments({
                         className="border-amber-300 bg-amber-100 text-amber-800 text-xs"
                       >
                         <Lock className="mr-1 h-3 w-3" />
-                        Internal
+                        Interne
                       </Badge>
                     )}
                     <span className="text-xs text-muted-foreground">
@@ -132,7 +132,7 @@ export function TicketComments({
             size="sm"
             onClick={() => setIsInternal(false)}
           >
-            Public reply
+            Réponse publique
           </Button>
           <Button
             type="button"
@@ -142,7 +142,7 @@ export function TicketComments({
             className={isInternal ? 'bg-amber-600 hover:bg-amber-700' : ''}
           >
             <Lock className="mr-1 h-3 w-3" />
-            Internal note
+            Note interne
           </Button>
         </div>
 
@@ -157,8 +157,8 @@ export function TicketComments({
                     <Textarea
                       placeholder={
                         isInternal
-                          ? 'Write an internal note (only visible to team)...'
-                          : 'Write a reply...'
+                          ? 'Écrire une note interne (visible uniquement par l\'équipe)...'
+                          : 'Écrire une réponse...'
                       }
                       className={cn(
                         'min-h-[100px]',
@@ -175,10 +175,10 @@ export function TicketComments({
               <Button type="submit" disabled={isSubmitting} size="sm">
                 <Send className="mr-2 h-4 w-4" />
                 {isSubmitting
-                  ? 'Sending...'
+                  ? 'Envoi en cours...'
                   : isInternal
-                    ? 'Add internal note'
-                    : 'Send reply'}
+                    ? 'Ajouter une note interne'
+                    : 'Envoyer la réponse'}
               </Button>
             </div>
           </form>

@@ -38,15 +38,15 @@ export function TemplateEditor({ value, onChange }: TemplateEditorProps) {
       <div className="flex items-center gap-2">
         <VariableInserter onInsert={handleInsertVariable} />
         <span className="text-xs text-muted-foreground">
-          Use variables like {'{{contact.firstName}}'} to personalize emails.
+          Utilisez des variables comme {'{{contact.firstName}}'} pour personnaliser les e-mails.
         </span>
       </div>
 
       <Tabs defaultValue="code" className="w-full">
         <TabsList>
-          <TabsTrigger value="code">HTML Editor</TabsTrigger>
-          <TabsTrigger value="preview">Live Preview</TabsTrigger>
-          <TabsTrigger value="split">Split View</TabsTrigger>
+          <TabsTrigger value="code">Éditeur HTML</TabsTrigger>
+          <TabsTrigger value="preview">Aperçu en direct</TabsTrigger>
+          <TabsTrigger value="split">Vue partagée</TabsTrigger>
         </TabsList>
 
         <TabsContent value="code">
@@ -55,7 +55,7 @@ export function TemplateEditor({ value, onChange }: TemplateEditorProps) {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             className="w-full min-h-[400px] rounded-md border border-input bg-background px-3 py-2 text-sm font-mono ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-y"
-            placeholder={'<html>\n  <body>\n    <h1>Hello {{contact.firstName}}!</h1>\n    <p>Your email content here...</p>\n  </body>\n</html>'}
+            placeholder={'<html>\n  <body>\n    <h1>Bonjour {{contact.firstName}} !</h1>\n    <p>Votre contenu d\'e-mail ici...</p>\n  </body>\n</html>'}
             spellCheck={false}
           />
         </TabsContent>
@@ -63,10 +63,10 @@ export function TemplateEditor({ value, onChange }: TemplateEditorProps) {
         <TabsContent value="preview">
           <div className="min-h-[400px] rounded-md border bg-white p-4">
             <iframe
-              srcDoc={value || '<p style="color:#999">Preview will appear here...</p>'}
+              srcDoc={value || '<p style="color:#999">L\'aperçu apparaîtra ici...</p>'}
               className="w-full min-h-[400px] border-0"
               sandbox="allow-same-origin"
-              title="Email preview"
+              title="Aperçu de l'e-mail"
             />
           </div>
         </TabsContent>
@@ -75,7 +75,7 @@ export function TemplateEditor({ value, onChange }: TemplateEditorProps) {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs font-medium text-muted-foreground mb-2">
-                HTML Source
+                Source HTML
               </p>
               <textarea
                 value={value}
@@ -86,14 +86,14 @@ export function TemplateEditor({ value, onChange }: TemplateEditorProps) {
             </div>
             <div>
               <p className="text-xs font-medium text-muted-foreground mb-2">
-                Preview
+                Aperçu
               </p>
               <div className="min-h-[400px] rounded-md border bg-white p-4">
                 <iframe
-                  srcDoc={value || '<p style="color:#999">Preview will appear here...</p>'}
+                  srcDoc={value || '<p style="color:#999">L\'aperçu apparaîtra ici...</p>'}
                   className="w-full min-h-[400px] border-0"
                   sandbox="allow-same-origin"
-                  title="Email preview"
+                  title="Aperçu de l'e-mail"
                 />
               </div>
             </div>

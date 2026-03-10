@@ -48,8 +48,8 @@ export default function ContactDetailPage() {
   if (!contact) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">Contact not found</p>
-        <Button asChild variant="link"><Link href="/contacts">Back to Contacts</Link></Button>
+        <p className="text-muted-foreground">Contact non trouvé</p>
+        <Button asChild variant="link"><Link href="/contacts">Retour aux Contacts</Link></Button>
       </div>
     );
   }
@@ -57,7 +57,7 @@ export default function ContactDetailPage() {
   return (
     <div className="space-y-6">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/contacts"><ArrowLeft className="h-4 w-4 mr-1" /> Back to Contacts</Link>
+        <Link href="/contacts"><ArrowLeft className="h-4 w-4 mr-1" /> Retour aux Contacts</Link>
       </Button>
       {isEditing ? (
         <ContactForm contact={contact} companies={companies} />

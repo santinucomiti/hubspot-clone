@@ -27,7 +27,7 @@ export default function ContactListsPage() {
       const response = await getContactLists({ limit: 100 });
       setLists(response.data);
     } catch {
-      toast.error('Failed to load contact lists');
+      toast.error('Impossible de charger les listes de contacts');
     } finally {
       setIsLoading(false);
     }
@@ -42,11 +42,11 @@ export default function ContactListsPage() {
     setIsDeleting(true);
     try {
       await deleteContactList(deleteTarget.id);
-      toast.success('Contact list deleted');
+      toast.success('Liste de contacts supprimée');
       setDeleteTarget(null);
       fetchLists();
     } catch {
-      toast.error('Failed to delete contact list');
+      toast.error('Impossible de supprimer la liste de contacts');
     } finally {
       setIsDeleting(false);
     }
@@ -59,9 +59,9 @@ export default function ContactListsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <PageHeader title="Contact Lists" />
+        <PageHeader title="Listes de contacts" />
         <div className="h-96 flex items-center justify-center text-muted-foreground">
-          Loading...
+          Chargement...
         </div>
       </div>
     );
@@ -70,13 +70,13 @@ export default function ContactListsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Contact Lists"
-        description="Organize contacts into static or dynamic lists for targeted campaigns."
+        title="Listes de contacts"
+        description="Organisez vos contacts en listes statiques ou dynamiques pour des campagnes ciblées."
         actions={
           <Button asChild>
             <Link href="/marketing/lists/new">
               <Plus className="mr-2 h-4 w-4" />
-              Create List
+              Créer une liste
             </Link>
           </Button>
         }
@@ -85,13 +85,13 @@ export default function ContactListsPage() {
       {lists.length === 0 ? (
         <EmptyState
           icon={List}
-          title="No contact lists yet"
-          description="Create your first contact list to organize contacts for email campaigns."
+          title="Aucune liste de contacts pour le moment"
+          description="Créez votre première liste de contacts pour organiser les contacts de vos campagnes e-mail."
           action={
             <Button asChild>
               <Link href="/marketing/lists/new">
                 <Plus className="mr-2 h-4 w-4" />
-                Create List
+                Créer une liste
               </Link>
             </Button>
           }
@@ -101,16 +101,16 @@ export default function ContactListsPage() {
           columns={columns}
           data={lists}
           searchKey="name"
-          searchPlaceholder="Search lists..."
+          searchPlaceholder="Rechercher des listes..."
         />
       )}
 
       <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title="Delete Contact List"
-        description={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone.`}
-        confirmLabel="Delete"
+        title="Supprimer la liste de contacts"
+        description={`Êtes-vous sûr de vouloir supprimer « ${deleteTarget?.name} » ? Cette action est irréversible.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

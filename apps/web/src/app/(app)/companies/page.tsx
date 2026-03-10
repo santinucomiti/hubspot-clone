@@ -46,18 +46,18 @@ export default function CompaniesPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Companies"
-        description={`${total} compan${total !== 1 ? 'ies' : 'y'}`}
+        title="Entreprises"
+        description={`${total} entreprise${total !== 1 ? 's' : ''}`}
         actions={
           <Button asChild>
-            <Link href="/companies/new"><Plus className="h-4 w-4 mr-1" /> Create Company</Link>
+            <Link href="/companies/new"><Plus className="h-4 w-4 mr-1" /> Créer une entreprise</Link>
           </Button>
         }
       />
 
       <div className="flex items-center gap-3">
         <Input
-          placeholder="Search companies..."
+          placeholder="Rechercher des entreprises..."
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="h-9 w-64"
@@ -71,9 +71,9 @@ export default function CompaniesPage() {
       ) : companies.length === 0 ? (
         <EmptyState
           icon={Building2}
-          title="No companies yet"
-          description="Create your first company to organize your contacts."
-          action={<Button asChild><Link href="/companies/new">Create Company</Link></Button>}
+          title="Aucune entreprise pour le moment"
+          description="Créez votre première entreprise pour organiser vos contacts."
+          action={<Button asChild><Link href="/companies/new">Créer une entreprise</Link></Button>}
         />
       ) : (
         <CompaniesTable companies={companies} onRefresh={fetchCompanies} />

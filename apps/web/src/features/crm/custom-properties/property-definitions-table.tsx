@@ -39,14 +39,14 @@ export function PropertyDefinitionsTable({
   const [deleting, setDeleting] = useState<string | null>(null);
 
   async function handleDelete(id: string) {
-    if (!confirm('Delete this property? All values will be removed.')) return;
+    if (!confirm('Supprimer cette propriété ? Toutes les valeurs seront supprimées.')) return;
     setDeleting(id);
     try {
       await deleteDefinition(id);
-      toast.success('Property deleted');
+      toast.success('Propriété supprimée');
       onRefresh();
     } catch {
-      toast.error('Failed to delete property');
+      toast.error('Échec de la suppression de la propriété');
     } finally {
       setDeleting(null);
     }
@@ -56,18 +56,18 @@ export function PropertyDefinitionsTable({
     <div>
       <div className="flex justify-end mb-4">
         <Button onClick={onAdd} size="sm">
-          <Plus className="h-4 w-4 mr-1" /> Add Property
+          <Plus className="h-4 w-4 mr-1" /> Ajouter une propriété
         </Button>
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Label</TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead>Libellé</TableHead>
+              <TableHead>Nom</TableHead>
               <TableHead>Type</TableHead>
-              <TableHead>Entity</TableHead>
-              <TableHead>Required</TableHead>
+              <TableHead>Entité</TableHead>
+              <TableHead>Obligatoire</TableHead>
               <TableHead>Options</TableHead>
               <TableHead className="w-[60px]" />
             </TableRow>
@@ -76,7 +76,7 @@ export function PropertyDefinitionsTable({
             {definitions.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
-                  No custom properties defined yet.
+                  Aucune propriété personnalisée définie pour le moment.
                 </TableCell>
               </TableRow>
             ) : (
@@ -90,7 +90,7 @@ export function PropertyDefinitionsTable({
                     </Badge>
                   </TableCell>
                   <TableCell>{def.entityType}</TableCell>
-                  <TableCell>{def.isRequired ? 'Yes' : 'No'}</TableCell>
+                  <TableCell>{def.isRequired ? 'Oui' : 'Non'}</TableCell>
                   <TableCell className="text-xs text-muted-foreground">
                     {def.options ? (def.options as string[]).join(', ') : '-'}
                   </TableCell>

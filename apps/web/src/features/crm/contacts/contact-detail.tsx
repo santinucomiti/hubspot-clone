@@ -25,10 +25,10 @@ export function ContactDetail({ contact }: ContactDetailProps) {
     setIsDeleting(true);
     try {
       await deleteContact(contact.id);
-      toast.success('Contact deleted');
+      toast.success('Contact supprimé');
       router.push('/contacts');
     } catch {
-      toast.error('Failed to delete contact');
+      toast.error('Échec de la suppression du contact');
     } finally {
       setIsDeleting(false);
     }
@@ -36,7 +36,7 @@ export function ContactDetail({ contact }: ContactDetailProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* En-tête */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{contact.firstName} {contact.lastName}</h1>
@@ -44,31 +44,31 @@ export function ContactDetail({ contact }: ContactDetailProps) {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/contacts/${contact.id}?edit=true`}><Pencil className="h-4 w-4 mr-1" /> Edit</Link>
+            <Link href={`/contacts/${contact.id}?edit=true`}><Pencil className="h-4 w-4 mr-1" /> Modifier</Link>
           </Button>
           <Button variant="destructive" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="h-4 w-4 mr-1" /> Delete
+            <Trash2 className="h-4 w-4 mr-1" /> Supprimer
           </Button>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {/* Contact Info */}
+        {/* Informations du contact */}
         <Card className="md:col-span-2">
-          <CardHeader><CardTitle>Contact Information</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Informations du contact</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <InfoRow icon={Mail} label="Email" value={contact.email} />
-              <InfoRow icon={Phone} label="Phone" value={contact.phone || '\u2014'} />
-              <InfoRow icon={User} label="Owner" value={`${contact.owner.firstName} ${contact.owner.lastName}`} />
-              <InfoRow icon={Calendar} label="Created" value={new Date(contact.createdAt).toLocaleDateString()} />
+              <InfoRow icon={Mail} label="E-mail" value={contact.email} />
+              <InfoRow icon={Phone} label="Téléphone" value={contact.phone || '\u2014'} />
+              <InfoRow icon={User} label="Propriétaire" value={`${contact.owner.firstName} ${contact.owner.lastName}`} />
+              <InfoRow icon={Calendar} label="Créé le" value={new Date(contact.createdAt).toLocaleDateString()} />
             </div>
           </CardContent>
         </Card>
 
-        {/* Associated Company */}
+        {/* Entreprise associée */}
         <Card>
-          <CardHeader><CardTitle>Company</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Entreprise</CardTitle></CardHeader>
           <CardContent>
             {contact.company ? (
               <Link href={`/companies/${contact.company.id}`} className="flex items-center gap-2 text-primary hover:underline">
@@ -76,26 +76,26 @@ export function ContactDetail({ contact }: ContactDetailProps) {
                 {contact.company.name}
               </Link>
             ) : (
-              <p className="text-sm text-muted-foreground">No company associated</p>
+              <p className="text-sm text-muted-foreground">Aucune entreprise associée</p>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Activities placeholder */}
+      {/* Chronologie des activités */}
       <Card>
-        <CardHeader><CardTitle>Activity Timeline</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Chronologie des activités</CardTitle></CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">Activity timeline will be available soon.</p>
+          <p className="text-sm text-muted-foreground">La chronologie des activités sera bientôt disponible.</p>
         </CardContent>
       </Card>
 
       <ConfirmDialog
         open={showDelete}
         onOpenChange={setShowDelete}
-        title="Delete Contact"
-        description={`Permanently delete ${contact.firstName} ${contact.lastName}? This cannot be undone.`}
-        confirmLabel="Delete"
+        title="Supprimer le contact"
+        description={`Supprimer définitivement ${contact.firstName} ${contact.lastName} ? Cette action est irréversible.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

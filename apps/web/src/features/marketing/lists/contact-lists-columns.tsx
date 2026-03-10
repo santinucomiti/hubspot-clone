@@ -26,7 +26,7 @@ export function getContactListColumns(
     {
       accessorKey: 'name',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Name" />
+        <DataTableColumnHeader column={column} title="Nom" />
       ),
       cell: ({ row }) => (
         <Link
@@ -50,7 +50,7 @@ export function getContactListColumns(
               ? 'bg-blue-500/10 text-blue-700 border-blue-500/20'
               : 'bg-purple-500/10 text-purple-700 border-purple-500/20'
           }>
-            {type.toLowerCase()}
+            {type === 'STATIC' ? 'statique' : 'dynamique'}
           </Badge>
         );
       },
@@ -58,7 +58,7 @@ export function getContactListColumns(
     {
       accessorKey: 'createdAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Created" />
+        <DataTableColumnHeader column={column} title="Créé" />
       ),
       cell: ({ row }) =>
         format(new Date(row.getValue('createdAt')), 'MMM d, yyyy'),
@@ -66,7 +66,7 @@ export function getContactListColumns(
     {
       accessorKey: 'updatedAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Updated" />
+        <DataTableColumnHeader column={column} title="Mis à jour" />
       ),
       cell: ({ row }) =>
         format(new Date(row.getValue('updatedAt')), 'MMM d, yyyy'),
@@ -77,7 +77,7 @@ export function getContactListColumns(
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Ouvrir le menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -85,7 +85,7 @@ export function getContactListColumns(
             <DropdownMenuItem asChild>
               <Link href={`/marketing/lists/${row.original.id}`}>
                 <Pencil className="mr-2 h-4 w-4" />
-                Edit
+                Modifier
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -93,7 +93,7 @@ export function getContactListColumns(
               onClick={() => actions.onDelete(row.original)}
             >
               <Trash2 className="mr-2 h-4 w-4" />
-              Delete
+              Supprimer
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

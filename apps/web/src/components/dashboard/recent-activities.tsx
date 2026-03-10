@@ -58,13 +58,13 @@ export function RecentActivities({ data, isLoading }: RecentActivitiesProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Recent Activities</CardTitle>
-        <CardDescription>Latest team activity across all modules</CardDescription>
+        <CardTitle className="text-base">Activités récentes</CardTitle>
+        <CardDescription>Dernières activités de l'équipe dans tous les modules</CardDescription>
       </CardHeader>
       <CardContent>
         {!data || data.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
-            No recent activities
+            Aucune activité récente
           </p>
         ) : (
           <ScrollArea className="h-[280px]">
@@ -89,7 +89,7 @@ export function RecentActivities({ data, isLoading }: RecentActivitiesProps) {
                     <p className="text-xs text-muted-foreground">
                       {activity.createdBy.firstName} {activity.createdBy.lastName}{' '}
                       &middot;{' '}
-                      {new Date(activity.createdAt).toLocaleDateString('en-US', {
+                      {new Date(activity.createdAt).toLocaleDateString('fr-FR', {
                         month: 'short',
                         day: 'numeric',
                         hour: '2-digit',

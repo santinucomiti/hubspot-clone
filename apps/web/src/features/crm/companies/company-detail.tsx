@@ -33,10 +33,10 @@ export function CompanyDetail({ company }: CompanyDetailProps) {
     setIsDeleting(true);
     try {
       await deleteCompany(company.id);
-      toast.success('Company deleted');
+      toast.success('Entreprise supprimée');
       router.push('/companies');
     } catch {
-      toast.error('Failed to delete company');
+      toast.error('Échec de la suppression de l\'entreprise');
     } finally {
       setIsDeleting(false);
     }
@@ -51,24 +51,24 @@ export function CompanyDetail({ company }: CompanyDetailProps) {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/companies/${company.id}?edit=true`}><Pencil className="h-4 w-4 mr-1" /> Edit</Link>
+            <Link href={`/companies/${company.id}?edit=true`}><Pencil className="h-4 w-4 mr-1" /> Modifier</Link>
           </Button>
           <Button variant="destructive" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="h-4 w-4 mr-1" /> Delete
+            <Trash2 className="h-4 w-4 mr-1" /> Supprimer
           </Button>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="md:col-span-2">
-          <CardHeader><CardTitle>Company Information</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Informations de l'entreprise</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <InfoRow icon={Globe} label="Domain" value={company.domain || '\u2014'} />
-              <InfoRow icon={Building2} label="Industry" value={company.industry || '\u2014'} />
-              <InfoRow icon={Users} label="Size" value={company.size || '\u2014'} />
-              <InfoRow icon={User} label="Owner" value={`${company.owner.firstName} ${company.owner.lastName}`} />
-              <InfoRow icon={Calendar} label="Created" value={new Date(company.createdAt).toLocaleDateString()} />
+              <InfoRow icon={Globe} label="Domaine" value={company.domain || '\u2014'} />
+              <InfoRow icon={Building2} label="Secteur d'activité" value={company.industry || '\u2014'} />
+              <InfoRow icon={Users} label="Taille" value={company.size || '\u2014'} />
+              <InfoRow icon={User} label="Propriétaire" value={`${company.owner.firstName} ${company.owner.lastName}`} />
+              <InfoRow icon={Calendar} label="Créé le" value={new Date(company.createdAt).toLocaleDateString()} />
             </div>
           </CardContent>
         </Card>
@@ -82,7 +82,7 @@ export function CompanyDetail({ company }: CompanyDetailProps) {
           </CardHeader>
           <CardContent>
             {contacts.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No contacts associated</p>
+              <p className="text-sm text-muted-foreground">Aucun contact associé</p>
             ) : (
               <div className="space-y-2">
                 {contacts.map((c) => (
@@ -103,9 +103,9 @@ export function CompanyDetail({ company }: CompanyDetailProps) {
       <ConfirmDialog
         open={showDelete}
         onOpenChange={setShowDelete}
-        title="Delete Company"
-        description={`Permanently delete ${company.name}? Contacts will be disassociated but not deleted.`}
-        confirmLabel="Delete"
+        title="Supprimer l'entreprise"
+        description={`Supprimer définitivement ${company.name} ? Les contacts seront dissociés mais pas supprimés.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

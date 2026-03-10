@@ -20,16 +20,16 @@ import { cn } from '@/lib/utils';
 import { SidebarNavItem } from './sidebar-nav-item';
 
 const navItems = [
-  { href: '/', icon: Home, label: 'Home' },
+  { href: '/', icon: Home, label: 'Accueil' },
   { href: '/contacts', icon: Users, label: 'Contacts' },
-  { href: '/companies', icon: Building2, label: 'Companies' },
-  { href: '/deals', icon: Handshake, label: 'Deals' },
+  { href: '/companies', icon: Building2, label: 'Entreprises' },
+  { href: '/deals', icon: Handshake, label: 'Affaires' },
   { href: '/marketing', icon: Mail, label: 'Marketing' },
   { href: '/tickets', icon: Ticket, label: 'Tickets' },
 ];
 
 const bottomNavItems = [
-  { href: '/settings', icon: Settings, label: 'Settings' },
+  { href: '/settings', icon: Settings, label: 'Paramètres' },
 ];
 
 export function Sidebar() {
@@ -103,7 +103,7 @@ export function Sidebar() {
             ) : (
               <>
                 <ChevronLeft className="h-4 w-4 mr-2" />
-                <span>Collapse</span>
+                <span>Réduire</span>
               </>
             )}
           </Button>

@@ -41,7 +41,7 @@ import {
 } from '@/lib/api/contact-lists';
 
 const contactListSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(255),
+  name: z.string().min(1, 'Le nom est requis').max(255),
   type: z.enum(['STATIC', 'DYNAMIC']),
 });
 
@@ -83,7 +83,7 @@ export function ContactListForm({
           name: data.name,
           filters: data.type === 'DYNAMIC' ? filters : undefined,
         });
-        toast.success('Contact list updated');
+        toast.success('Liste de contacts mise à jour');
       } else {
         const list = await createContactList({
           name: data.name,
@@ -96,14 +96,14 @@ export function ContactListForm({
           await addContactListMembers(list.id, selectedContactIds);
         }
 
-        toast.success('Contact list created');
+        toast.success('Liste de contacts créée');
       }
 
       router.push('/marketing/lists');
       router.refresh();
     } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : 'Failed to save contact list';
+        error instanceof Error ? error.message : 'Échec de la sauvegarde de la liste de contacts';
       toast.error(message);
     } finally {
       setIsSubmitting(false);
@@ -116,12 +116,12 @@ export function ContactListForm({
         <Card>
           <CardHeader>
             <CardTitle>
-              {isEditing ? 'Edit Contact List' : 'Create Contact List'}
+              {isEditing ? 'Modifier la liste de contacts' : 'Créer une liste de contacts'}
             </CardTitle>
             <CardDescription>
               {isEditing
-                ? 'Update your contact list settings.'
-                : 'Create a new static or dynamic contact list.'}
+                ? 'Mettez à jour les paramètres de votre liste de contacts.'
+                : 'Créez une nouvelle liste de contacts statique ou dynamique.'}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -130,9 +130,9 @@ export function ContactListForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>List Name</FormLabel>
+                  <FormLabel>Nom de la liste</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. VIP Customers" {...field} />
+                    <Input placeholder="ex. Clients VIP" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,22 +145,22 @@ export function ContactListForm({
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>List Type</FormLabel>
+                    <FormLabel>Type de liste</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
+                          <SelectValue placeholder="Sélectionner le type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="STATIC">
-                          Static - Manually pick contacts
+                          Statique - Sélectionner les contacts manuellement
                         </SelectItem>
                         <SelectItem value="DYNAMIC">
-                          Dynamic - Auto-populate from filter rules
+                          Dynamique - Remplissage automatique selon les règles de filtre
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -176,10 +176,10 @@ export function ContactListForm({
         {listType === 'DYNAMIC' && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Filter Rules</CardTitle>
+              <CardTitle className="text-lg">Règles de filtre</CardTitle>
               <CardDescription>
-                Define criteria to automatically include matching contacts.
-                Contacts matching ALL rules will be included (AND logic).
+                Définissez des critères pour inclure automatiquement les contacts correspondants.
+                Les contacts correspondant à TOUTES les règles seront inclus (logique ET).
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -192,9 +192,9 @@ export function ContactListForm({
         {listType === 'STATIC' && !isEditing && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Select Contacts</CardTitle>
+              <CardTitle className="text-lg">Sélectionner des contacts</CardTitle>
               <CardDescription>
-                Search and pick contacts to add to this list.
+                Recherchez et sélectionnez des contacts à ajouter à cette liste.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -210,17 +210,17 @@ export function ContactListForm({
         <div className="flex items-center gap-4">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting
-              ? 'Saving...'
+              ? 'Sauvegarde...'
               : isEditing
-                ? 'Update List'
-                : 'Create List'}
+                ? 'Mettre à jour la liste'
+                : 'Créer la liste'}
           </Button>
           <Button
             type="button"
             variant="outline"
             onClick={() => router.push('/marketing/lists')}
           >
-            Cancel
+            Annuler
           </Button>
         </div>
       </form>

@@ -57,15 +57,15 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
     if (!pipeline) return;
     const wonStage = pipeline.stages.find((s) => s.isWon);
     if (!wonStage) {
-      toast.error('No "Won" stage configured in this pipeline');
+      toast.error('Aucune étape "Gagnée" configurée dans ce pipeline');
       return;
     }
     try {
       await updateDeal(deal.id, { stageId: wonStage.id });
-      toast.success('Deal marked as won!');
+      toast.success('Affaire marquée comme gagnée !');
       onUpdate();
     } catch {
-      toast.error('Failed to update deal');
+      toast.error('Échec de la mise à jour de l\'affaire');
       throw new Error('Failed');
     }
   };
@@ -74,7 +74,7 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
     if (!pipeline) return;
     const lostStage = pipeline.stages.find((s) => s.isLost);
     if (!lostStage) {
-      toast.error('No "Lost" stage configured in this pipeline');
+      toast.error('Aucune étape "Perdue" configurée dans ce pipeline');
       return;
     }
     try {
@@ -82,10 +82,10 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
         stageId: lostStage.id,
         lostReason: reason,
       });
-      toast.success('Deal marked as lost');
+      toast.success('Affaire marquée comme perdue');
       onUpdate();
     } catch {
-      toast.error('Failed to update deal');
+      toast.error('Échec de la mise à jour de l\'affaire');
       throw new Error('Failed');
     }
   };
@@ -94,10 +94,10 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
     setIsDeleting(true);
     try {
       await deleteDeal(deal.id);
-      toast.success('Deal deleted');
+      toast.success('Affaire supprimée');
       router.push('/deals');
     } catch {
-      toast.error('Failed to delete deal');
+      toast.error('Échec de la suppression de l\'affaire');
     } finally {
       setIsDeleting(false);
     }
@@ -106,7 +106,7 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
   return (
     <>
       <div className="space-y-6">
-        {/* Header Card */}
+        {/* Carte d'en-tête */}
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -116,8 +116,8 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                   <StatusBadge status={status} type="dealStatus" />
                 </div>
                 <CardDescription className="mt-1">
-                  {deal.stage?.name ?? 'Unknown Stage'} &middot;{' '}
-                  {pipeline?.name ?? 'Unknown Pipeline'}
+                  {deal.stage?.name ?? 'Étape inconnue'} &middot;{' '}
+                  {pipeline?.name ?? 'Pipeline inconnu'}
                 </CardDescription>
               </div>
 
@@ -131,7 +131,7 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                       onClick={() => setShowWonDialog(true)}
                     >
                       <Trophy className="mr-1.5 h-4 w-4" />
-                      Won
+                      Gagnée
                     </Button>
                     <Button
                       size="sm"
@@ -140,7 +140,7 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                       onClick={() => setShowLostDialog(true)}
                     >
                       <XCircle className="mr-1.5 h-4 w-4" />
-                      Lost
+                      Perdue
                     </Button>
                   </>
                 )}
@@ -150,7 +150,7 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                   onClick={() => router.push(`/deals/${deal.id}?edit=true`)}
                 >
                   <Edit className="mr-1.5 h-4 w-4" />
-                  Edit
+                  Modifier
                 </Button>
                 <Button
                   size="sm"
@@ -166,20 +166,20 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
 
           <CardContent>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {/* Amount */}
+              {/* Montant */}
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                   <DollarSign className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Amount</p>
+                  <p className="text-sm text-muted-foreground">Montant</p>
                   <p className="text-lg font-semibold">
                     {formatCurrency(deal.amount, deal.currency)}
                   </p>
                 </div>
               </div>
 
-              {/* Close Date */}
+              {/* Date de clôture */}
               <div className="flex items-center gap-3">
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-lg ${
@@ -191,42 +191,42 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                   />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Close Date</p>
+                  <p className="text-sm text-muted-foreground">Date de clôture</p>
                   <p
                     className={`text-lg font-semibold ${overdue ? 'text-red-600' : ''}`}
                   >
                     {formatDate(deal.closeDate)}
                     {overdue && (
                       <span className="ml-2 text-xs font-normal text-red-500">
-                        Overdue
+                        En retard
                       </span>
                     )}
                   </p>
                 </div>
               </div>
 
-              {/* Owner */}
+              {/* Propriétaire */}
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                   <User className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Owner</p>
+                  <p className="text-sm text-muted-foreground">Propriétaire</p>
                   <p className="text-lg font-semibold">
                     {deal.owner
                       ? `${deal.owner.firstName} ${deal.owner.lastName}`
-                      : 'Unassigned'}
+                      : 'Non assigné'}
                   </p>
                 </div>
               </div>
 
-              {/* Probability */}
+              {/* Probabilité */}
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                   <Trophy className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Probability</p>
+                  <p className="text-sm text-muted-foreground">Probabilité</p>
                   <p className="text-lg font-semibold">
                     {deal.stage?.probability ?? 0}%
                   </p>
@@ -234,13 +234,13 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
               </div>
             </div>
 
-            {/* Lost Reason */}
+            {/* Raison de la perte */}
             {deal.lostReason && (
               <>
                 <Separator className="my-4" />
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">
-                    Lost Reason
+                    Raison de la perte
                   </p>
                   <p className="mt-1 text-sm">{deal.lostReason}</p>
                 </div>
@@ -251,12 +251,12 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
 
         {/* Associations */}
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Associated Contacts */}
+          {/* Contacts associés */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
                 <Users className="h-4 w-4" />
-                Associated Contacts
+                Contacts associés
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -280,25 +280,25 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                         size="sm"
                         onClick={() => router.push(`/contacts/${contact.id}`)}
                       >
-                        View
+                        Voir
                       </Button>
                     </div>
                   ))}
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No contacts associated
+                  Aucun contact associé
                 </p>
               )}
             </CardContent>
           </Card>
 
-          {/* Associated Companies */}
+          {/* Entreprises associées */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
                 <Building2 className="h-4 w-4" />
-                Associated Companies
+                Entreprises associées
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -324,37 +324,37 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
                           router.push(`/companies/${company.id}`)
                         }
                       >
-                        View
+                        Voir
                       </Button>
                     </div>
                   ))}
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No companies associated
+                  Aucune entreprise associée
                 </p>
               )}
             </CardContent>
           </Card>
         </div>
 
-        {/* Activity Timeline (placeholder) */}
+        {/* Chronologie d'activité (espace réservé) */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Activity Timeline</CardTitle>
+            <CardTitle className="text-base">Chronologie d&apos;activité</CardTitle>
             <CardDescription>
-              Notes, calls, emails, and meetings related to this deal
+              Notes, appels, e-mails et réunions liés à cette affaire
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Activity timeline will be populated from the Activities module.
+              La chronologie d&apos;activité sera alimentée par le module Activités.
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Dialogs */}
+      {/* Dialogues */}
       <DealWonLostDialog
         open={showWonDialog}
         onOpenChange={setShowWonDialog}
@@ -374,9 +374,9 @@ export function DealDetail({ deal, pipeline, onUpdate }: DealDetailProps) {
       <ConfirmDialog
         open={showDeleteDialog}
         onOpenChange={setShowDeleteDialog}
-        title="Delete Deal"
-        description={`Are you sure you want to delete "${deal.name}"? This action cannot be undone.`}
-        confirmLabel="Delete"
+        title="Supprimer l'affaire"
+        description={`Êtes-vous sûr de vouloir supprimer « ${deal.name} » ? Cette action est irréversible.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

@@ -28,8 +28,8 @@ import { Badge } from '@/components/ui/badge';
 import { createDefinition } from '@/lib/api/custom-properties';
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required').max(100).regex(/^[a-z][a-z0-9_]*$/, 'Lowercase letters, numbers, underscores only'),
-  label: z.string().min(1, 'Label is required').max(200),
+  name: z.string().min(1, 'Le nom est obligatoire').max(100).regex(/^[a-z][a-z0-9_]*$/, 'Lettres minuscules, chiffres et underscores uniquement'),
+  label: z.string().min(1, 'Le libellé est obligatoire').max(200),
   fieldType: z.enum(['TEXT', 'NUMBER', 'DATE', 'DROPDOWN']),
   entityType: z.enum(['CONTACT', 'COMPANY']),
   isRequired: z.boolean(),
@@ -79,7 +79,7 @@ export function PropertyDefinitionForm({
 
   async function onSubmit(values: FormValues) {
     if (values.fieldType === 'DROPDOWN' && options.length === 0) {
-      toast.error('Add at least one option for dropdown');
+      toast.error('Ajoutez au moins une option pour la liste déroulante');
       return;
     }
 
@@ -89,13 +89,13 @@ export function PropertyDefinitionForm({
         ...values,
         options: values.fieldType === 'DROPDOWN' ? options : undefined,
       });
-      toast.success('Property created');
+      toast.success('Propriété créée');
       form.reset();
       setOptions([]);
       onOpenChange(false);
       onCreated();
     } catch {
-      toast.error('Failed to create property');
+      toast.error('Échec de la création de la propriété');
     } finally {
       setSubmitting(false);
     }
@@ -105,20 +105,20 @@ export function PropertyDefinitionForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle>New Custom Property</DialogTitle>
+          <DialogTitle>Nouvelle propriété personnalisée</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="label">Label</Label>
-              <Input id="label" {...form.register('label')} placeholder="Company Size" />
+              <Label htmlFor="label">Libellé</Label>
+              <Input id="label" {...form.register('label')} placeholder="Taille de l'entreprise" />
               {form.formState.errors.label && (
                 <p className="text-sm text-destructive">{form.formState.errors.label.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="name">Name (key)</Label>
-              <Input id="name" {...form.register('name')} placeholder="company_size" />
+              <Label htmlFor="name">Nom (clé)</Label>
+              <Input id="name" {...form.register('name')} placeholder="taille_entreprise" />
               {form.formState.errors.name && (
                 <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
               )}
@@ -127,19 +127,19 @@ export function PropertyDefinitionForm({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Field Type</Label>
+              <Label>Type de champ</Label>
               <Select value={fieldType} onValueChange={(v) => form.setValue('fieldType', v as FormValues['fieldType'])}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="TEXT">Text</SelectItem>
-                  <SelectItem value="NUMBER">Number</SelectItem>
+                  <SelectItem value="TEXT">Texte</SelectItem>
+                  <SelectItem value="NUMBER">Nombre</SelectItem>
                   <SelectItem value="DATE">Date</SelectItem>
-                  <SelectItem value="DROPDOWN">Dropdown</SelectItem>
+                  <SelectItem value="DROPDOWN">Liste déroulante</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Entity Type</Label>
+              <Label>Type d'entité</Label>
               <Select
                 value={form.watch('entityType')}
                 onValueChange={(v) => form.setValue('entityType', v as FormValues['entityType'])}
@@ -147,7 +147,7 @@ export function PropertyDefinitionForm({
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="CONTACT">Contact</SelectItem>
-                  <SelectItem value="COMPANY">Company</SelectItem>
+                  <SelectItem value="COMPANY">Entreprise</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -161,9 +161,9 @@ export function PropertyDefinitionForm({
                   value={optionInput}
                   onChange={(e) => setOptionInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addOption(); } }}
-                  placeholder="Add option..."
+                  placeholder="Ajouter une option..."
                 />
-                <Button type="button" variant="outline" onClick={addOption}>Add</Button>
+                <Button type="button" variant="outline" onClick={addOption}>Ajouter</Button>
               </div>
               <div className="flex flex-wrap gap-1 mt-1">
                 {options.map((opt) => (
@@ -184,13 +184,13 @@ export function PropertyDefinitionForm({
               checked={form.watch('isRequired')}
               onCheckedChange={(checked) => form.setValue('isRequired', !!checked)}
             />
-            <Label htmlFor="isRequired">Required field</Label>
+            <Label htmlFor="isRequired">Champ obligatoire</Label>
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Annuler</Button>
             <Button type="submit" disabled={submitting}>
-              {submitting ? 'Creating...' : 'Create Property'}
+              {submitting ? 'Création...' : 'Créer la propriété'}
             </Button>
           </DialogFooter>
         </form>

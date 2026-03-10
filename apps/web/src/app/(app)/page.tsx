@@ -22,7 +22,7 @@ export default function DashboardPage() {
       const dashboardData = await getDashboard();
       setData(dashboardData);
     } catch {
-      toast.error('Failed to load dashboard data');
+      toast.error('Impossible de charger les données du tableau de bord');
     } finally {
       setIsLoading(false);
     }
@@ -33,14 +33,14 @@ export default function DashboardPage() {
   }, [fetchDashboard]);
 
   const greeting = user
-    ? `Welcome back, ${user.firstName}`
-    : 'Welcome back';
+    ? `Bon retour, ${user.firstName}`
+    : 'Bon retour';
 
   return (
     <div className="space-y-6">
       <PageHeader
         title={greeting}
-        description="Here is an overview of your CRM activity"
+        description="Voici un aperçu de votre activité CRM"
       />
 
       {/* Top row: Deals + Activities */}

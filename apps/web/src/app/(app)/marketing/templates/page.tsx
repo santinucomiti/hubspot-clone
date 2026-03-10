@@ -27,7 +27,7 @@ export default function EmailTemplatesPage() {
       const response = await getEmailTemplates({ limit: 100 });
       setTemplates(response.data);
     } catch {
-      toast.error('Failed to load email templates');
+      toast.error('Impossible de charger les modèles d\'e-mail');
     } finally {
       setIsLoading(false);
     }
@@ -42,11 +42,11 @@ export default function EmailTemplatesPage() {
     setIsDeleting(true);
     try {
       await deleteEmailTemplate(deleteTarget.id);
-      toast.success('Template deleted');
+      toast.success('Modèle supprimé');
       setDeleteTarget(null);
       fetchTemplates();
     } catch {
-      toast.error('Failed to delete template');
+      toast.error('Impossible de supprimer le modèle');
     } finally {
       setIsDeleting(false);
     }
@@ -59,9 +59,9 @@ export default function EmailTemplatesPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <PageHeader title="Email Templates" />
+        <PageHeader title="Modèles d'e-mail" />
         <div className="h-96 flex items-center justify-center text-muted-foreground">
-          Loading...
+          Chargement...
         </div>
       </div>
     );
@@ -70,13 +70,13 @@ export default function EmailTemplatesPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Email Templates"
-        description="Design reusable email templates for your marketing campaigns."
+        title="Modèles d'e-mail"
+        description="Concevez des modèles d'e-mail réutilisables pour vos campagnes marketing."
         actions={
           <Button asChild>
             <Link href="/marketing/templates/new">
               <Plus className="mr-2 h-4 w-4" />
-              Create Template
+              Créer un modèle
             </Link>
           </Button>
         }
@@ -85,13 +85,13 @@ export default function EmailTemplatesPage() {
       {templates.length === 0 ? (
         <EmptyState
           icon={FileText}
-          title="No email templates yet"
-          description="Create your first email template to start building marketing campaigns."
+          title="Aucun modèle d'e-mail pour le moment"
+          description="Créez votre premier modèle d'e-mail pour commencer à construire des campagnes marketing."
           action={
             <Button asChild>
               <Link href="/marketing/templates/new">
                 <Plus className="mr-2 h-4 w-4" />
-                Create Template
+                Créer un modèle
               </Link>
             </Button>
           }
@@ -101,16 +101,16 @@ export default function EmailTemplatesPage() {
           columns={columns}
           data={templates}
           searchKey="name"
-          searchPlaceholder="Search templates..."
+          searchPlaceholder="Rechercher des modèles..."
         />
       )}
 
       <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title="Delete Email Template"
-        description={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone. Campaigns using this template will not be affected.`}
-        confirmLabel="Delete"
+        title="Supprimer le modèle d'e-mail"
+        description={`Êtes-vous sûr de vouloir supprimer « ${deleteTarget?.name} » ? Cette action est irréversible. Les campagnes utilisant ce modèle ne seront pas affectées.`}
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

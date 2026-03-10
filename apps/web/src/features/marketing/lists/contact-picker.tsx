@@ -77,7 +77,7 @@ export function ContactPicker({ selectedIds, onChange }: ContactPickerProps) {
           ))}
           {selectedIds.length > selectedContacts.length && (
             <Badge variant="outline">
-              +{selectedIds.length - selectedContacts.length} more selected
+              +{selectedIds.length - selectedContacts.length} autre(s) sélectionné(s)
             </Badge>
           )}
         </div>
@@ -87,7 +87,7 @@ export function ContactPicker({ selectedIds, onChange }: ContactPickerProps) {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search contacts..."
+          placeholder="Rechercher des contacts..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-9"
@@ -99,11 +99,11 @@ export function ContactPicker({ selectedIds, onChange }: ContactPickerProps) {
         <div className="p-2">
           {isLoading ? (
             <p className="py-4 text-center text-sm text-muted-foreground">
-              Loading contacts...
+              Chargement des contacts...
             </p>
           ) : contacts.length === 0 ? (
             <p className="py-4 text-center text-sm text-muted-foreground">
-              No contacts found.
+              Aucun contact trouvé.
             </p>
           ) : (
             contacts.map((contact) => (
@@ -131,7 +131,7 @@ export function ContactPicker({ selectedIds, onChange }: ContactPickerProps) {
       </ScrollArea>
 
       <p className="text-xs text-muted-foreground">
-        {selectedIds.length} contact{selectedIds.length !== 1 ? 's' : ''} selected
+        {selectedIds.length} contact{selectedIds.length !== 1 ? 's' : ''} sélectionné{selectedIds.length !== 1 ? 's' : ''}
       </p>
     </div>
   );

@@ -5,8 +5,8 @@ export default function PipelineSettingsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Pipeline Settings"
-        description="Configure your sales pipelines and customize deal stages"
+        title="Paramètres des pipelines"
+        description="Configurez vos pipelines de ventes et personnalisez les étapes des affaires"
       />
       <PipelineSettings />
     </div>

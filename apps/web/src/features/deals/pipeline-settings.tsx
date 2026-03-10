@@ -49,11 +49,11 @@ interface StageFormData {
 
 const DEFAULT_STAGES: StageFormData[] = [
   { name: 'Qualification', position: 0, probability: 10, isWon: false, isLost: false },
-  { name: 'Meeting Scheduled', position: 1, probability: 25, isWon: false, isLost: false },
-  { name: 'Proposal Sent', position: 2, probability: 50, isWon: false, isLost: false },
-  { name: 'Negotiation', position: 3, probability: 75, isWon: false, isLost: false },
-  { name: 'Closed Won', position: 4, probability: 100, isWon: true, isLost: false },
-  { name: 'Closed Lost', position: 5, probability: 0, isWon: false, isLost: true },
+  { name: 'Réunion planifiée', position: 1, probability: 25, isWon: false, isLost: false },
+  { name: 'Proposition envoyée', position: 2, probability: 50, isWon: false, isLost: false },
+  { name: 'Négociation', position: 3, probability: 75, isWon: false, isLost: false },
+  { name: 'Fermée gagnée', position: 4, probability: 100, isWon: true, isLost: false },
+  { name: 'Fermée perdue', position: 5, probability: 0, isWon: false, isLost: true },
 ];
 
 export function PipelineSettings() {
@@ -79,7 +79,7 @@ export function PipelineSettings() {
       const data = await listPipelines();
       setPipelines(data);
     } catch {
-      toast.error('Failed to load pipelines');
+      toast.error('Échec du chargement des pipelines');
     } finally {
       setIsLoading(false);
     }
@@ -147,13 +147,13 @@ export function PipelineSettings() {
 
   const handleSave = async () => {
     if (!pipelineName.trim()) {
-      toast.error('Pipeline name is required');
+      toast.error('Le nom du pipeline est requis');
       return;
     }
 
     const validStages = stages.filter((s) => s.name.trim());
     if (validStages.length === 0) {
-      toast.error('At least one stage is required');
+      toast.error('Au moins une étape est requise');
       return;
     }
 
@@ -165,7 +165,7 @@ export function PipelineSettings() {
           name: pipelineName,
           isDefault: pipelineIsDefault,
         });
-        toast.success('Pipeline updated');
+        toast.success('Pipeline mis à jour');
       } else {
         // Create new pipeline with stages
         const input: CreatePipelineInput = {
@@ -180,12 +180,12 @@ export function PipelineSettings() {
           })),
         };
         await createPipeline(input);
-        toast.success('Pipeline created');
+        toast.success('Pipeline créé');
       }
       setShowPipelineDialog(false);
       fetchPipelines();
     } catch {
-      toast.error('Failed to save pipeline');
+      toast.error('Échec de l\'enregistrement du pipeline');
     } finally {
       setIsSaving(false);
     }
@@ -196,11 +196,11 @@ export function PipelineSettings() {
     setIsDeleting(true);
     try {
       await deletePipeline(deletingPipeline.id);
-      toast.success('Pipeline deleted');
+      toast.success('Pipeline supprimé');
       setDeletingPipeline(null);
       fetchPipelines();
     } catch {
-      toast.error('Failed to delete pipeline');
+      toast.error('Échec de la suppression du pipeline');
     } finally {
       setIsDeleting(false);
     }
@@ -227,12 +227,12 @@ export function PipelineSettings() {
           <div>
             <h2 className="text-lg font-semibold">Pipelines</h2>
             <p className="text-sm text-muted-foreground">
-              Manage your sales pipelines and stages
+              Gérez vos pipelines de vente et leurs étapes
             </p>
           </div>
           <Button onClick={openCreateDialog}>
             <Plus className="mr-2 h-4 w-4" />
-            New Pipeline
+            Nouveau pipeline
           </Button>
         </div>
 
@@ -243,7 +243,7 @@ export function PipelineSettings() {
                 <div className="flex items-center gap-3">
                   <CardTitle className="text-base">{pipeline.name}</CardTitle>
                   {pipeline.isDefault && (
-                    <Badge variant="secondary">Default</Badge>
+                    <Badge variant="secondary">Par défaut</Badge>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
@@ -266,7 +266,7 @@ export function PipelineSettings() {
                 </div>
               </div>
               <CardDescription>
-                {pipeline.stages.length} stages
+                {pipeline.stages.length} étapes
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -288,7 +288,7 @@ export function PipelineSettings() {
                         variant="secondary"
                         className="ml-1 bg-emerald-100 text-emerald-700 text-[10px] px-1"
                       >
-                        Won
+                        Gagnée
                       </Badge>
                     )}
                     {stage.isLost && (
@@ -296,7 +296,7 @@ export function PipelineSettings() {
                         variant="secondary"
                         className="ml-1 bg-red-100 text-red-700 text-[10px] px-1"
                       >
-                        Lost
+                        Perdue
                       </Badge>
                     )}
                   </div>
@@ -307,28 +307,28 @@ export function PipelineSettings() {
         ))}
       </div>
 
-      {/* Create/Edit Pipeline Dialog */}
+      {/* Dialogue de création/modification de pipeline */}
       <Dialog open={showPipelineDialog} onOpenChange={setShowPipelineDialog}>
         <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {editingPipeline ? 'Edit Pipeline' : 'Create Pipeline'}
+              {editingPipeline ? 'Modifier le pipeline' : 'Créer un pipeline'}
             </DialogTitle>
           </DialogHeader>
 
           <div className="space-y-6 py-4">
-            {/* Pipeline Name */}
+            {/* Nom du pipeline */}
             <div className="space-y-2">
-              <Label htmlFor="pipelineName">Pipeline Name</Label>
+              <Label htmlFor="pipelineName">Nom du pipeline</Label>
               <Input
                 id="pipelineName"
-                placeholder="e.g. Sales Pipeline"
+                placeholder="ex. Pipeline de vente"
                 value={pipelineName}
                 onChange={(e) => setPipelineName(e.target.value)}
               />
             </div>
 
-            {/* Default Checkbox */}
+            {/* Case à cocher par défaut */}
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="isDefault"
@@ -338,19 +338,19 @@ export function PipelineSettings() {
                 }
               />
               <Label htmlFor="isDefault" className="text-sm font-normal">
-                Set as default pipeline
+                Définir comme pipeline par défaut
               </Label>
             </div>
 
             <Separator />
 
-            {/* Stages */}
+            {/* Étapes */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <Label>Stages</Label>
+                <Label>Étapes</Label>
                 <Button variant="outline" size="sm" onClick={addStage}>
                   <Plus className="mr-1 h-3 w-3" />
-                  Add Stage
+                  Ajouter une étape
                 </Button>
               </div>
 
@@ -365,7 +365,7 @@ export function PipelineSettings() {
                     <div className="flex-1 grid grid-cols-4 gap-2">
                       <div className="col-span-2">
                         <Input
-                          placeholder="Stage name"
+                          placeholder="Nom de l'étape"
                           value={stage.name}
                           onChange={(e) =>
                             updateStage(index, 'name', e.target.value)
@@ -394,7 +394,7 @@ export function PipelineSettings() {
                               updateStage(index, 'isWon', checked === true)
                             }
                           />
-                          <span className="text-xs">Won</span>
+                          <span className="text-xs">Gagnée</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Checkbox
@@ -403,7 +403,7 @@ export function PipelineSettings() {
                               updateStage(index, 'isLost', checked === true)
                             }
                           />
-                          <span className="text-xs">Lost</span>
+                          <span className="text-xs">Perdue</span>
                         </div>
                       </div>
                     </div>
@@ -429,22 +429,22 @@ export function PipelineSettings() {
               onClick={() => setShowPipelineDialog(false)}
               disabled={isSaving}
             >
-              Cancel
+              Annuler
             </Button>
             <Button onClick={handleSave} disabled={isSaving}>
-              {isSaving ? 'Saving...' : editingPipeline ? 'Update' : 'Create'}
+              {isSaving ? 'Enregistrement...' : editingPipeline ? 'Mettre à jour' : 'Créer'}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Delete Pipeline Confirmation */}
+      {/* Confirmation de suppression de pipeline */}
       <ConfirmDialog
         open={!!deletingPipeline}
         onOpenChange={(open) => !open && setDeletingPipeline(null)}
-        title="Delete Pipeline"
-        description={`Are you sure you want to delete "${deletingPipeline?.name}"? All stages in this pipeline will be removed. Deals must be moved to another pipeline first.`}
-        confirmLabel="Delete Pipeline"
+        title="Supprimer le pipeline"
+        description={`Êtes-vous sûr de vouloir supprimer « ${deletingPipeline?.name} » ? Toutes les étapes de ce pipeline seront supprimées. Les affaires doivent d'abord être déplacées vers un autre pipeline.`}
+        confirmLabel="Supprimer le pipeline"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}

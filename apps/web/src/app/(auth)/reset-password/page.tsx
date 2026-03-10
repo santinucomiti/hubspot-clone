@@ -32,12 +32,12 @@ const resetPasswordSchema = z
   .object({
     newPassword: z
       .string()
-      .min(8, 'Password must be at least 8 characters')
-      .max(128, 'Password is too long'),
+      .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
+      .max(128, 'Le mot de passe est trop long'),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'Les mots de passe ne correspondent pas',
     path: ['confirmPassword'],
   });
 
@@ -59,7 +59,7 @@ export default function ResetPasswordPage() {
 
   async function onSubmit(data: ResetPasswordForm) {
     if (!token) {
-      toast.error('Invalid reset link. Please request a new one.');
+      toast.error('Lien de réinitialisation invalide. Veuillez en demander un nouveau.');
       return;
     }
 
@@ -67,9 +67,9 @@ export default function ResetPasswordPage() {
     try {
       await resetPassword({ token, newPassword: data.newPassword });
       setIsSubmitted(true);
-      toast.success('Password reset successfully!');
+      toast.success('Mot de passe réinitialisé avec succès !');
     } catch {
-      toast.error('Invalid or expired reset token. Please request a new one.');
+      toast.error('Jeton de réinitialisation invalide ou expiré. Veuillez en demander un nouveau.');
     } finally {
       setIsLoading(false);
     }
@@ -79,10 +79,10 @@ export default function ResetPasswordPage() {
     return (
       <Card>
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl">Invalid reset link</CardTitle>
+          <CardTitle className="text-2xl">Lien de réinitialisation invalide</CardTitle>
           <CardDescription>
-            This password reset link is invalid or has expired. Please request a
-            new one.
+            Ce lien de réinitialisation de mot de passe est invalide ou a expiré.
+            Veuillez en demander un nouveau.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
@@ -90,7 +90,7 @@ export default function ResetPasswordPage() {
             href="/forgot-password"
             className="text-sm text-primary hover:underline"
           >
-            Request new reset link
+            Demander un nouveau lien
           </Link>
         </CardFooter>
       </Card>
@@ -101,10 +101,10 @@ export default function ResetPasswordPage() {
     return (
       <Card>
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl">Password reset</CardTitle>
+          <CardTitle className="text-2xl">Mot de passe réinitialisé</CardTitle>
           <CardDescription>
-            Your password has been reset successfully. You can now sign in with
-            your new password.
+            Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant
+            vous connecter avec votre nouveau mot de passe.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
@@ -113,7 +113,7 @@ export default function ResetPasswordPage() {
             className="flex items-center text-sm text-primary hover:underline"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to sign in
+            Retour à la connexion
           </Link>
         </CardFooter>
       </Card>
@@ -123,8 +123,8 @@ export default function ResetPasswordPage() {
   return (
     <Card>
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl">Reset your password</CardTitle>
-        <CardDescription>Enter your new password below</CardDescription>
+        <CardTitle className="text-2xl">Réinitialiser votre mot de passe</CardTitle>
+        <CardDescription>Entrez votre nouveau mot de passe ci-dessous</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -134,11 +134,11 @@ export default function ResetPasswordPage() {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New password</FormLabel>
+                  <FormLabel>Nouveau mot de passe</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="At least 8 characters"
+                      placeholder="Au moins 8 caractères"
                       autoComplete="new-password"
                       {...field}
                     />
@@ -152,11 +152,11 @@ export default function ResetPasswordPage() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm new password</FormLabel>
+                  <FormLabel>Confirmer le nouveau mot de passe</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Repeat your new password"
+                      placeholder="Répétez votre nouveau mot de passe"
                       autoComplete="new-password"
                       {...field}
                     />
@@ -166,7 +166,7 @@ export default function ResetPasswordPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Resetting...' : 'Reset password'}
+              {isLoading ? 'Réinitialisation...' : 'Réinitialiser le mot de passe'}
             </Button>
           </form>
         </Form>

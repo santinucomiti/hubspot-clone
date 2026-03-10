@@ -5,8 +5,8 @@ export default function NewCampaignPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Create Campaign"
-        description="Follow the wizard to set up and send your email campaign."
+        title="Créer une campagne"
+        description="Suivez l'assistant pour configurer et envoyer votre campagne e-mail."
       />
       <CampaignWizard />
     </div>

@@ -24,7 +24,7 @@ const columns: ColumnDef<Deal>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nom" />
     ),
     cell: ({ row }) => (
       <Link
@@ -38,7 +38,7 @@ const columns: ColumnDef<Deal>[] = [
   {
     accessorKey: 'amount',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Amount" />
+      <DataTableColumnHeader column={column} title="Montant" />
     ),
     cell: ({ row }) =>
       formatCurrency(row.original.amount, row.original.currency),
@@ -46,7 +46,7 @@ const columns: ColumnDef<Deal>[] = [
   {
     accessorKey: 'stage',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Stage" />
+      <DataTableColumnHeader column={column} title="Étape" />
     ),
     cell: ({ row }) => row.original.stage?.name ?? '-',
     filterFn: (row, _id, value) => {
@@ -55,7 +55,7 @@ const columns: ColumnDef<Deal>[] = [
   },
   {
     id: 'status',
-    header: 'Status',
+    header: 'Statut',
     cell: ({ row }) => {
       const status = getDealStatus(row.original.stage);
       return <StatusBadge status={status} type="dealStatus" />;
@@ -64,13 +64,13 @@ const columns: ColumnDef<Deal>[] = [
   {
     accessorKey: 'closeDate',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Close Date" />
+      <DataTableColumnHeader column={column} title="Date de clôture" />
     ),
     cell: ({ row }) => formatDate(row.original.closeDate),
   },
   {
     id: 'owner',
-    header: 'Owner',
+    header: 'Propriétaire',
     cell: ({ row }) =>
       row.original.owner
         ? `${row.original.owner.firstName} ${row.original.owner.lastName}`
@@ -84,16 +84,16 @@ const columns: ColumnDef<Deal>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Ouvrir le menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <Link href={`/deals/${deal.id}`}>View details</Link>
+              <Link href={`/deals/${deal.id}`}>Voir les détails</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href={`/deals/${deal.id}?edit=true`}>Edit</Link>
+              <Link href={`/deals/${deal.id}?edit=true`}>Modifier</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -108,7 +108,7 @@ export function DealsTable({ deals }: DealsTableProps) {
       columns={columns}
       data={deals}
       searchKey="name"
-      searchPlaceholder="Search deals..."
+      searchPlaceholder="Rechercher des affaires..."
     />
   );
 }

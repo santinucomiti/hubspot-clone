@@ -51,21 +51,21 @@ export function DealWonLostDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {isWon ? 'Mark Deal as Won' : 'Mark Deal as Lost'}
+            {isWon ? 'Marquer l\'affaire comme gagnée' : 'Marquer l\'affaire comme perdue'}
           </DialogTitle>
           <DialogDescription>
             {isWon
-              ? `Congratulations! "${dealName}" will be marked as won.`
-              : `"${dealName}" will be marked as lost. Optionally provide a reason.`}
+              ? `Félicitations ! « ${dealName} » sera marquée comme gagnée.`
+              : `« ${dealName} » sera marquée comme perdue. Vous pouvez optionnellement fournir une raison.`}
           </DialogDescription>
         </DialogHeader>
 
         {!isWon && (
           <div className="space-y-2 py-4">
-            <Label htmlFor="lostReason">Reason for losing</Label>
+            <Label htmlFor="lostReason">Raison de la perte</Label>
             <Input
               id="lostReason"
-              placeholder="e.g. Went with competitor, Budget constraints..."
+              placeholder="ex. Choix d'un concurrent, Contraintes budgétaires..."
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
@@ -78,7 +78,7 @@ export function DealWonLostDialog({
             onClick={() => onOpenChange(false)}
             disabled={isLoading}
           >
-            Cancel
+            Annuler
           </Button>
           <Button
             variant={isWon ? 'default' : 'destructive'}
@@ -86,10 +86,10 @@ export function DealWonLostDialog({
             disabled={isLoading}
           >
             {isLoading
-              ? 'Saving...'
+              ? 'Enregistrement...'
               : isWon
-                ? 'Mark as Won'
-                : 'Mark as Lost'}
+                ? 'Marquer comme gagnée'
+                : 'Marquer comme perdue'}
           </Button>
         </DialogFooter>
       </DialogContent>

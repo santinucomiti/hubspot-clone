@@ -38,8 +38,8 @@ import apiClient from '@/lib/api/client';
 const ticketFormSchema = z.object({
   subject: z
     .string()
-    .min(1, 'Subject is required')
-    .max(255, 'Subject must be 255 characters or fewer'),
+    .min(1, 'L\'objet est requis')
+    .max(255, 'L\'objet doit contenir 255 caractères ou moins'),
   description: z.string().optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']),
   category: z.string().max(100).optional(),
@@ -132,10 +132,10 @@ export function TicketForm() {
       };
 
       const ticket = await createTicket(payload);
-      toast.success('Ticket created');
+      toast.success('Ticket créé avec succès');
       router.push(`/tickets/${ticket.id}`);
     } catch {
-      toast.error('Failed to create ticket');
+      toast.error('Échec de la création du ticket');
     } finally {
       setIsSubmitting(false);
     }
@@ -149,9 +149,9 @@ export function TicketForm() {
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Ticket Information</CardTitle>
+                <CardTitle>Informations du ticket</CardTitle>
                 <CardDescription>
-                  Provide the details of the support ticket.
+                  Fournissez les détails du ticket de support.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -160,10 +160,10 @@ export function TicketForm() {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Subject *</FormLabel>
+                      <FormLabel>Objet *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Brief description of the issue"
+                          placeholder="Brève description du problème"
                           {...field}
                         />
                       </FormControl>
@@ -180,13 +180,13 @@ export function TicketForm() {
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Detailed description of the issue..."
+                          placeholder="Description détaillée du problème..."
                           className="min-h-[150px]"
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        You can use HTML for rich formatting.
+                        Vous pouvez utiliser du HTML pour la mise en forme.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -199,21 +199,21 @@ export function TicketForm() {
                     name="priority"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Priority</FormLabel>
+                        <FormLabel>Priorité</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select priority" />
+                              <SelectValue placeholder="Sélectionner la priorité" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="LOW">Low</SelectItem>
-                            <SelectItem value="MEDIUM">Medium</SelectItem>
-                            <SelectItem value="HIGH">High</SelectItem>
-                            <SelectItem value="URGENT">Urgent</SelectItem>
+                            <SelectItem value="LOW">Basse</SelectItem>
+                            <SelectItem value="MEDIUM">Moyenne</SelectItem>
+                            <SelectItem value="HIGH">Haute</SelectItem>
+                            <SelectItem value="URGENT">Urgente</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -226,10 +226,10 @@ export function TicketForm() {
                     name="category"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Category</FormLabel>
+                        <FormLabel>Catégorie</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="e.g. Billing, Technical, General"
+                            placeholder="ex. Facturation, Technique, Général"
                             {...field}
                           />
                         </FormControl>
@@ -251,13 +251,13 @@ export function TicketForm() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select source" />
+                            <SelectValue placeholder="Sélectionner la source" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="MANUAL">Manual</SelectItem>
-                          <SelectItem value="EMAIL">Email</SelectItem>
-                          <SelectItem value="FORM">Form</SelectItem>
+                          <SelectItem value="MANUAL">Manuel</SelectItem>
+                          <SelectItem value="EMAIL">E-mail</SelectItem>
+                          <SelectItem value="FORM">Formulaire</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -272,7 +272,7 @@ export function TicketForm() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Assign & Link</CardTitle>
+                <CardTitle className="text-base">Assigner et lier</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -280,14 +280,14 @@ export function TicketForm() {
                   name="ownerId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Owner</FormLabel>
+                      <FormLabel>Propriétaire</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Assign to..." />
+                            <SelectValue placeholder="Assigner à..." />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -315,7 +315,7 @@ export function TicketForm() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Link contact..." />
+                            <SelectValue placeholder="Lier un contact..." />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -336,14 +336,14 @@ export function TicketForm() {
                   name="companyId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company</FormLabel>
+                      <FormLabel>Entreprise</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Link company..." />
+                            <SelectValue placeholder="Lier une entreprise..." />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -368,10 +368,10 @@ export function TicketForm() {
                 className="flex-1"
                 onClick={() => router.push('/tickets')}
               >
-                Cancel
+                Annuler
               </Button>
               <Button type="submit" className="flex-1" disabled={isSubmitting}>
-                {isSubmitting ? 'Creating...' : 'Create ticket'}
+                {isSubmitting ? 'Création en cours...' : 'Créer un ticket'}
               </Button>
             </div>
           </div>

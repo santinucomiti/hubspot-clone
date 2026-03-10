@@ -110,7 +110,7 @@ export function KanbanBoard({
         await moveDealStage(dealId, targetStageId);
         const targetStage = pipeline.stages.find((s) => s.id === targetStageId);
         toast.success(
-          `Moved "${deal.name}" to ${targetStage?.name ?? 'new stage'}`,
+          `« ${deal.name} » déplacée vers ${targetStage?.name ?? 'nouvelle étape'}`,
         );
         onDealMoved?.();
       } catch {
@@ -120,7 +120,7 @@ export function KanbanBoard({
             d.id === dealId ? { ...d, stageId: deal.stageId } : d,
           ),
         );
-        toast.error('Failed to move deal. Please try again.');
+        toast.error('Échec du déplacement de l\'affaire. Veuillez réessayer.');
       }
     },
     [deals, pipeline.stages, onDealMoved],

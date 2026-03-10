@@ -18,11 +18,11 @@ const statusFlow: Record<TicketStatus, TicketStatus[]> = {
 };
 
 const statusLabels: Record<TicketStatus, string> = {
-  OPEN: 'Open',
-  IN_PROGRESS: 'In Progress',
-  WAITING: 'Waiting',
-  RESOLVED: 'Resolved',
-  CLOSED: 'Closed',
+  OPEN: 'Ouvert',
+  IN_PROGRESS: 'En cours',
+  WAITING: 'En attente',
+  RESOLVED: 'Résolu',
+  CLOSED: 'Fermé',
 };
 
 interface TicketStatusBarProps {
@@ -45,9 +45,9 @@ export function TicketStatusBar({
     try {
       await updateTicketStatus(ticketId, newStatus);
       onStatusChange(newStatus);
-      toast.success(`Status changed to ${statusLabels[newStatus]}`);
+      toast.success(`Statut changé en ${statusLabels[newStatus]}`);
     } catch {
-      toast.error('Failed to update status');
+      toast.error('Échec de la mise à jour du statut');
     } finally {
       setIsUpdating(null);
     }
@@ -57,7 +57,7 @@ export function TicketStatusBar({
     <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-muted-foreground">
-          Status:
+          Statut :
         </span>
         <StatusBadge status={currentStatus} type="ticketStatus" />
       </div>
@@ -66,7 +66,7 @@ export function TicketStatusBar({
         <>
           <div className="h-6 w-px bg-border" />
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-muted-foreground">Move to:</span>
+            <span className="text-sm text-muted-foreground">Déplacer vers :</span>
             {availableTransitions.map((status) => (
               <Button
                 key={status}
@@ -75,7 +75,7 @@ export function TicketStatusBar({
                 disabled={isUpdating !== null}
                 onClick={() => handleStatusChange(status)}
               >
-                {isUpdating === status ? 'Updating...' : statusLabels[status]}
+                {isUpdating === status ? 'Mise à jour...' : statusLabels[status]}
               </Button>
             ))}
           </div>

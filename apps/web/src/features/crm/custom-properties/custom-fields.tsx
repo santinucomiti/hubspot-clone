@@ -46,7 +46,7 @@ export function CustomFields({ entityType, entityId, readOnly = false }: CustomF
       });
       setValues(valMap);
     } catch {
-      // Silently fail — custom properties are optional UI
+      // Échec silencieux — les propriétés personnalisées sont optionnelles
     } finally {
       setLoading(false);
     }
@@ -69,7 +69,7 @@ export function CustomFields({ entityType, entityId, readOnly = false }: CustomF
         value: newValue,
       });
     } catch {
-      toast.error('Failed to save property');
+      toast.error('Échec de l\'enregistrement de la propriété');
     } finally {
       setSaving(null);
     }
@@ -128,7 +128,7 @@ function CustomField({ definition, value, onChange, disabled }: CustomFieldProps
           onChange={(e) => onChange(e.target.value)}
           onBlur={(e) => onChange(e.target.value)}
           disabled={disabled}
-          placeholder={`Enter ${label.toLowerCase()}`}
+          placeholder={`Saisir ${label.toLowerCase()}`}
         />
       )}
 
@@ -155,7 +155,7 @@ function CustomField({ definition, value, onChange, disabled }: CustomFieldProps
       {fieldType === 'DROPDOWN' && options && (
         <Select value={value} onValueChange={onChange} disabled={disabled}>
           <SelectTrigger>
-            <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
+            <SelectValue placeholder={`Sélectionner ${label.toLowerCase()}`} />
           </SelectTrigger>
           <SelectContent>
             {(options as string[]).map((opt) => (

@@ -28,7 +28,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 const forgotPasswordSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email: z.string().email('Veuillez entrer une adresse e-mail valide'),
 });
 
 type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
@@ -49,9 +49,9 @@ export default function ForgotPasswordPage() {
     try {
       await forgotPassword(data);
       setIsSubmitted(true);
-      toast.success('Reset link sent if the email exists');
+      toast.success('Lien de réinitialisation envoyé si l\'e-mail existe');
     } catch {
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setIsLoading(false);
     }
@@ -61,10 +61,10 @@ export default function ForgotPasswordPage() {
     return (
       <Card>
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl">Check your email</CardTitle>
+          <CardTitle className="text-2xl">Vérifiez votre e-mail</CardTitle>
           <CardDescription>
-            If an account with that email exists, we&apos;ve sent a password
-            reset link. Check your inbox and spam folder.
+            Si un compte avec cette adresse e-mail existe, nous avons envoyé un
+            lien de réinitialisation. Vérifiez votre boîte de réception et votre dossier spam.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-center">
@@ -73,7 +73,7 @@ export default function ForgotPasswordPage() {
             className="flex items-center text-sm text-primary hover:underline"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to sign in
+            Retour à la connexion
           </Link>
         </CardFooter>
       </Card>
@@ -83,9 +83,9 @@ export default function ForgotPasswordPage() {
   return (
     <Card>
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl">Forgot password</CardTitle>
+        <CardTitle className="text-2xl">Mot de passe oublié</CardTitle>
         <CardDescription>
-          Enter your email address and we&apos;ll send you a reset link
+          Entrez votre adresse e-mail et nous vous enverrons un lien de réinitialisation
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -96,11 +96,11 @@ export default function ForgotPasswordPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>E-mail</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="name@company.com"
+                      placeholder="nom@entreprise.com"
                       autoComplete="email"
                       {...field}
                     />
@@ -110,7 +110,7 @@ export default function ForgotPasswordPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'Send reset link'}
+              {isLoading ? 'Envoi en cours...' : 'Envoyer le lien de réinitialisation'}
             </Button>
           </form>
         </Form>

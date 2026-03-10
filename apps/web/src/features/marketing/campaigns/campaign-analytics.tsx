@@ -58,7 +58,7 @@ export function CampaignAnalyticsDashboard({
       const data = await getCampaignAnalytics(campaignId);
       setAnalytics(data);
     } catch {
-      toast.error('Failed to load campaign analytics');
+      toast.error('Échec du chargement des analytiques de la campagne');
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +85,7 @@ export function CampaignAnalyticsDashboard({
   if (!analytics) {
     return (
       <p className="text-sm text-muted-foreground text-center py-8">
-        No analytics data available yet.
+        Aucune donnée analytique disponible pour le moment.
       </p>
     );
   }
@@ -97,39 +97,39 @@ export function CampaignAnalyticsDashboard({
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <StatCard
-        title="Sent"
+        title="Envoyé"
         value={analytics.sent.toLocaleString()}
-        subtitle="Total emails sent"
+        subtitle="Total d'e-mails envoyés"
         icon={<Send className="h-4 w-4 text-muted-foreground" />}
       />
       <StatCard
-        title="Delivered"
+        title="Délivré"
         value={analytics.delivered.toLocaleString()}
-        subtitle={`${analytics.sent > 0 ? formatRate(analytics.delivered / analytics.sent) : '0%'} delivery rate`}
+        subtitle={`${analytics.sent > 0 ? formatRate(analytics.delivered / analytics.sent) : '0%'} taux de délivrance`}
         icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
       />
       <StatCard
-        title="Opened"
+        title="Ouvert"
         value={analytics.opened.toLocaleString()}
-        subtitle={`${formatRate(analytics.openRate)} open rate`}
+        subtitle={`${formatRate(analytics.openRate)} taux d'ouverture`}
         icon={<Mail className="h-4 w-4 text-blue-600" />}
       />
       <StatCard
-        title="Clicked"
+        title="Cliqué"
         value={analytics.clicked.toLocaleString()}
-        subtitle={`${formatRate(analytics.clickRate)} click rate`}
+        subtitle={`${formatRate(analytics.clickRate)} taux de clic`}
         icon={<MousePointerClick className="h-4 w-4 text-purple-600" />}
       />
       <StatCard
-        title="Bounced"
+        title="Rebondi"
         value={analytics.bounced.toLocaleString()}
-        subtitle={`${formatRate(analytics.bounceRate)} bounce rate`}
+        subtitle={`${formatRate(analytics.bounceRate)} taux de rebond`}
         icon={<AlertTriangle className="h-4 w-4 text-amber-600" />}
       />
       <StatCard
-        title="Unsubscribed"
+        title="Désabonné"
         value={analytics.unsubscribed.toLocaleString()}
-        subtitle={`${formatRate(analytics.unsubscribeRate)} unsubscribe rate`}
+        subtitle={`${formatRate(analytics.unsubscribeRate)} taux de désabonnement`}
         icon={<UserMinus className="h-4 w-4 text-red-600" />}
       />
     </div>

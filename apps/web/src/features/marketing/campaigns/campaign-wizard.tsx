@@ -40,17 +40,17 @@ import { getContactLists, type ContactList } from '@/lib/api/contact-lists';
 import { createCampaign, sendCampaign } from '@/lib/api/campaigns';
 
 const STEPS = [
-  { title: 'Template', description: 'Select an email template' },
-  { title: 'Details', description: 'Customize subject and sender' },
-  { title: 'Recipients', description: 'Choose contact lists' },
-  { title: 'Preview', description: 'Review and send' },
+  { title: 'Modèle', description: 'Sélectionner un modèle d\'e-mail' },
+  { title: 'Détails', description: 'Personnaliser l\'objet et l\'expéditeur' },
+  { title: 'Destinataires', description: 'Choisir les listes de contacts' },
+  { title: 'Aperçu', description: 'Vérifier et envoyer' },
 ];
 
 const campaignDetailsSchema = z.object({
-  name: z.string().min(1, 'Campaign name is required').max(255),
-  subject: z.string().min(1, 'Subject is required').max(998),
-  fromName: z.string().min(1, 'Sender name is required').max(255),
-  fromEmail: z.string().email('Valid email required'),
+  name: z.string().min(1, 'Le nom de la campagne est requis').max(255),
+  subject: z.string().min(1, 'L\'objet est requis').max(998),
+  fromName: z.string().min(1, 'Le nom de l\'expéditeur est requis').max(255),
+  fromEmail: z.string().email('E-mail valide requis'),
 });
 
 type CampaignDetailsValues = z.infer<typeof campaignDetailsSchema>;
@@ -88,7 +88,7 @@ export function CampaignWizard() {
       const response = await getEmailTemplates({ limit: 100 });
       setTemplates(response.data);
     } catch {
-      toast.error('Failed to load templates');
+      toast.error('Échec du chargement des modèles');
     } finally {
       setTemplatesLoading(false);
     }
@@ -99,7 +99,7 @@ export function CampaignWizard() {
       const response = await getContactLists({ limit: 100 });
       setContactLists(response.data);
     } catch {
-      toast.error('Failed to load contact lists');
+      toast.error('Échec du chargement des listes de contacts');
     } finally {
       setListsLoading(false);
     }
@@ -179,14 +179,14 @@ export function CampaignWizard() {
 
       toast.success(
         schedule
-          ? 'Campaign scheduled successfully'
-          : 'Campaign sent successfully',
+          ? 'Campagne planifiée avec succès'
+          : 'Campagne envoyée avec succès',
       );
       router.push('/marketing/campaigns');
       router.refresh();
     } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : 'Failed to send campaign';
+        error instanceof Error ? error.message : 'Échec de l\'envoi de la campagne';
       toast.error(message);
     } finally {
       setIsSubmitting(false);
@@ -234,19 +234,19 @@ export function CampaignWizard() {
       {currentStep === 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Select Email Template</CardTitle>
+            <CardTitle>Sélectionner un modèle d&apos;e-mail</CardTitle>
             <CardDescription>
-              Choose a template for your campaign.
+              Choisissez un modèle pour votre campagne.
             </CardDescription>
           </CardHeader>
           <CardContent>
             {templatesLoading ? (
               <p className="text-sm text-muted-foreground py-4 text-center">
-                Loading templates...
+                Chargement des modèles...
               </p>
             ) : templates.length === 0 ? (
               <p className="text-sm text-muted-foreground py-4 text-center">
-                No templates found. Please create a template first.
+                Aucun modèle trouvé. Veuillez d&apos;abord créer un modèle.
               </p>
             ) : (
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -277,9 +277,9 @@ export function CampaignWizard() {
       {currentStep === 1 && (
         <Card>
           <CardHeader>
-            <CardTitle>Campaign Details</CardTitle>
+            <CardTitle>Détails de la campagne</CardTitle>
             <CardDescription>
-              Set the campaign name, subject line, and sender information.
+              Définissez le nom de la campagne, la ligne d&apos;objet et les informations de l&apos;expéditeur.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -290,10 +290,10 @@ export function CampaignWizard() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Campaign Name</FormLabel>
+                      <FormLabel>Nom de la campagne</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g. March Newsletter"
+                          placeholder="ex. Newsletter de mars"
                           {...field}
                         />
                       </FormControl>
@@ -307,10 +307,10 @@ export function CampaignWizard() {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Subject Line</FormLabel>
+                      <FormLabel>Ligne d&apos;objet</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g. Exciting news, {{contact.firstName}}!"
+                          placeholder="ex. Des nouvelles passionnantes, {{contact.firstName}} !"
                           {...field}
                         />
                       </FormControl>
@@ -325,9 +325,9 @@ export function CampaignWizard() {
                     name="fromName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>From Name</FormLabel>
+                        <FormLabel>Nom de l&apos;expéditeur</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g. Marketing Team" {...field} />
+                          <Input placeholder="ex. Équipe marketing" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -339,11 +339,11 @@ export function CampaignWizard() {
                     name="fromEmail"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>From Email</FormLabel>
+                        <FormLabel>E-mail de l&apos;expéditeur</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="e.g. marketing@company.com"
+                            placeholder="ex. marketing@entreprise.com"
                             {...field}
                           />
                         </FormControl>
@@ -362,19 +362,19 @@ export function CampaignWizard() {
       {currentStep === 2 && (
         <Card>
           <CardHeader>
-            <CardTitle>Select Contact Lists</CardTitle>
+            <CardTitle>Sélectionner les listes de contacts</CardTitle>
             <CardDescription>
-              Choose one or more contact lists as recipients.
+              Choisissez une ou plusieurs listes de contacts comme destinataires.
             </CardDescription>
           </CardHeader>
           <CardContent>
             {listsLoading ? (
               <p className="text-sm text-muted-foreground py-4 text-center">
-                Loading contact lists...
+                Chargement des listes de contacts...
               </p>
             ) : contactLists.length === 0 ? (
               <p className="text-sm text-muted-foreground py-4 text-center">
-                No contact lists found. Please create a list first.
+                Aucune liste de contacts trouvée. Veuillez d&apos;abord créer une liste.
               </p>
             ) : (
               <ScrollArea className="h-[400px]">
@@ -397,11 +397,11 @@ export function CampaignWizard() {
                       <div className="flex-1">
                         <p className="text-sm font-medium">{list.name}</p>
                         <p className="text-xs text-muted-foreground">
-                          {list.type.toLowerCase()} list
+                          liste {list.type === 'STATIC' ? 'statique' : 'dynamique'}
                         </p>
                       </div>
                       <Badge variant="outline" className="capitalize">
-                        {list.type.toLowerCase()}
+                        {list.type === 'STATIC' ? 'statique' : 'dynamique'}
                       </Badge>
                     </div>
                   ))}
@@ -410,7 +410,7 @@ export function CampaignWizard() {
             )}
 
             <p className="text-sm text-muted-foreground mt-4">
-              {selectedListIds.length} list{selectedListIds.length !== 1 ? 's' : ''} selected
+              {selectedListIds.length} liste{selectedListIds.length !== 1 ? 's' : ''} sélectionnée{selectedListIds.length !== 1 ? 's' : ''}
             </p>
           </CardContent>
         </Card>
@@ -421,16 +421,16 @@ export function CampaignWizard() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Campaign Summary</CardTitle>
+              <CardTitle>Résumé de la campagne</CardTitle>
               <CardDescription>
-                Review your campaign before sending.
+                Vérifiez votre campagne avant l&apos;envoi.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">
-                    Campaign Name
+                    Nom de la campagne
                   </p>
                   <p className="text-sm font-medium">
                     {form.getValues('name')}
@@ -438,13 +438,13 @@ export function CampaignWizard() {
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">
-                    Subject
+                    Objet
                   </p>
                   <p className="text-sm">{form.getValues('subject')}</p>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">
-                    From
+                    De
                   </p>
                   <p className="text-sm">
                     {form.getValues('fromName')} &lt;{form.getValues('fromEmail')}&gt;
@@ -452,7 +452,7 @@ export function CampaignWizard() {
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">
-                    Template
+                    Modèle
                   </p>
                   <p className="text-sm">{selectedTemplate?.name || '-'}</p>
                 </div>
@@ -462,7 +462,7 @@ export function CampaignWizard() {
 
               <div>
                 <p className="text-xs font-medium text-muted-foreground mb-2">
-                  Recipient Lists
+                  Listes de destinataires
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {selectedListIds.map((listId) => {
@@ -482,14 +482,14 @@ export function CampaignWizard() {
               {selectedTemplate && (
                 <div>
                   <p className="text-xs font-medium text-muted-foreground mb-2">
-                    Email Preview
+                    Aperçu de l&apos;e-mail
                   </p>
                   <div className="rounded-md border bg-white p-4 max-h-[300px] overflow-y-auto">
                     <iframe
                       srcDoc={selectedTemplate.htmlContent}
                       className="w-full min-h-[250px] border-0"
                       sandbox="allow-same-origin"
-                      title="Campaign email preview"
+                      title="Aperçu de l'e-mail de la campagne"
                     />
                   </div>
                 </div>
@@ -500,7 +500,7 @@ export function CampaignWizard() {
           {/* Schedule option */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Send Options</CardTitle>
+              <CardTitle className="text-lg">Options d&apos;envoi</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -508,7 +508,7 @@ export function CampaignWizard() {
                   htmlFor="scheduledAt"
                   className="text-sm font-medium"
                 >
-                  Schedule for later (optional)
+                  Planifier pour plus tard (optionnel)
                 </label>
                 <Input
                   id="scheduledAt"
@@ -518,7 +518,7 @@ export function CampaignWizard() {
                   className="mt-1 max-w-xs"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  Leave empty to send immediately.
+                  Laissez vide pour envoyer immédiatement.
                 </p>
               </div>
             </CardContent>
@@ -532,7 +532,7 @@ export function CampaignWizard() {
           {currentStep > 0 && (
             <Button variant="outline" onClick={handleBack}>
               <ChevronLeft className="mr-2 h-4 w-4" />
-              Back
+              Précédent
             </Button>
           )}
         </div>
@@ -541,12 +541,12 @@ export function CampaignWizard() {
             variant="outline"
             onClick={() => router.push('/marketing/campaigns')}
           >
-            Cancel
+            Annuler
           </Button>
 
           {currentStep < STEPS.length - 1 ? (
             <Button onClick={handleNext} disabled={!canProceed()}>
-              Next
+              Suivant
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           ) : (
@@ -558,7 +558,7 @@ export function CampaignWizard() {
                   disabled={isSubmitting}
                 >
                   <Clock className="mr-2 h-4 w-4" />
-                  {isSubmitting ? 'Scheduling...' : 'Schedule'}
+                  {isSubmitting ? 'Planification...' : 'Planifier'}
                 </Button>
               )}
               <Button
@@ -566,7 +566,7 @@ export function CampaignWizard() {
                 disabled={isSubmitting}
               >
                 <Send className="mr-2 h-4 w-4" />
-                {isSubmitting ? 'Sending...' : 'Send Now'}
+                {isSubmitting ? 'Envoi en cours...' : 'Envoyer maintenant'}
               </Button>
             </>
           )}

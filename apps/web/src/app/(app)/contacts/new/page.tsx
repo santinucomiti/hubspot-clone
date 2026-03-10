@@ -17,7 +17,7 @@ export default function NewContactPage() {
   return (
     <div className="space-y-6">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/contacts"><ArrowLeft className="h-4 w-4 mr-1" /> Back to Contacts</Link>
+        <Link href="/contacts"><ArrowLeft className="h-4 w-4 mr-1" /> Retour aux Contacts</Link>
       </Button>
       <ContactForm companies={companies} />
     </div>

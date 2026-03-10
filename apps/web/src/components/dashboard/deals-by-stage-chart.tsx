@@ -41,13 +41,13 @@ export function DealsByStageChart({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Deals by Stage</CardTitle>
-        <CardDescription>Pipeline overview with amounts</CardDescription>
+        <CardTitle className="text-base">Affaires par étape</CardTitle>
+        <CardDescription>Aperçu du pipeline avec montants</CardDescription>
       </CardHeader>
       <CardContent>
         {!data || data.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
-            No deal data available
+            Aucune donnée d'affaire disponible
           </p>
         ) : (
           <div className="space-y-3">
@@ -56,8 +56,8 @@ export function DealsByStageChart({
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium">{item.stage}</span>
                   <span className="text-muted-foreground">
-                    {item.count} deals &middot;{' '}
-                    {new Intl.NumberFormat('en-US', {
+                    {item.count} affaires &middot;{' '}
+                    {new Intl.NumberFormat('fr-FR', {
                       style: 'currency',
                       currency: 'EUR',
                       minimumFractionDigits: 0,

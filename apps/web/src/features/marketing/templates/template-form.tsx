@@ -31,9 +31,9 @@ import {
 } from '@/lib/api/email-templates';
 
 const templateSchema = z.object({
-  name: z.string().min(1, 'Template name is required').max(255),
-  subject: z.string().min(1, 'Subject line is required').max(998),
-  htmlContent: z.string().min(1, 'HTML content is required'),
+  name: z.string().min(1, 'Le nom du modèle est requis').max(255),
+  subject: z.string().min(1, 'La ligne d\'objet est requise').max(998),
+  htmlContent: z.string().min(1, 'Le contenu HTML est requis'),
 });
 
 type TemplateFormValues = z.infer<typeof templateSchema>;
@@ -61,16 +61,16 @@ export function TemplateForm({ initialData }: TemplateFormProps) {
     try {
       if (isEditing) {
         await updateEmailTemplate(initialData.id, data);
-        toast.success('Template updated');
+        toast.success('Modèle mis à jour');
       } else {
         await createEmailTemplate(data);
-        toast.success('Template created');
+        toast.success('Modèle créé');
       }
       router.push('/marketing/templates');
       router.refresh();
     } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : 'Failed to save template';
+        error instanceof Error ? error.message : 'Échec de la sauvegarde du modèle';
       toast.error(message);
     } finally {
       setIsSubmitting(false);
@@ -83,12 +83,12 @@ export function TemplateForm({ initialData }: TemplateFormProps) {
         <Card>
           <CardHeader>
             <CardTitle>
-              {isEditing ? 'Edit Template' : 'Create Template'}
+              {isEditing ? 'Modifier le modèle' : 'Créer un modèle'}
             </CardTitle>
             <CardDescription>
               {isEditing
-                ? 'Update your email template.'
-                : 'Design a new email template with HTML content and personalization variables.'}
+                ? 'Mettez à jour votre modèle d\'e-mail.'
+                : 'Concevez un nouveau modèle d\'e-mail avec du contenu HTML et des variables de personnalisation.'}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -97,10 +97,10 @@ export function TemplateForm({ initialData }: TemplateFormProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Template Name</FormLabel>
+                  <FormLabel>Nom du modèle</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g. Welcome Email"
+                      placeholder="ex. E-mail de bienvenue"
                       {...field}
                     />
                   </FormControl>
@@ -114,10 +114,10 @@ export function TemplateForm({ initialData }: TemplateFormProps) {
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Subject Line</FormLabel>
+                  <FormLabel>Ligne d&apos;objet</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g. Welcome to our platform, {{contact.firstName}}!"
+                      placeholder="ex. Bienvenue sur notre plateforme, {{contact.firstName}} !"
                       {...field}
                     />
                   </FormControl>
@@ -130,10 +130,10 @@ export function TemplateForm({ initialData }: TemplateFormProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Email Content</CardTitle>
+            <CardTitle className="text-lg">Contenu de l&apos;e-mail</CardTitle>
             <CardDescription>
-              Write HTML content for your email. Use the variable inserter to add
-              personalization tokens.
+              Rédigez le contenu HTML de votre e-mail. Utilisez l&apos;outil d&apos;insertion de variables pour ajouter
+              des jetons de personnalisation.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -158,17 +158,17 @@ export function TemplateForm({ initialData }: TemplateFormProps) {
         <div className="flex items-center gap-4">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting
-              ? 'Saving...'
+              ? 'Sauvegarde...'
               : isEditing
-                ? 'Update Template'
-                : 'Create Template'}
+                ? 'Mettre à jour le modèle'
+                : 'Créer le modèle'}
           </Button>
           <Button
             type="button"
             variant="outline"
             onClick={() => router.push('/marketing/templates')}
           >
-            Cancel
+            Annuler
           </Button>
         </div>
       </form>

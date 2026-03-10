@@ -27,7 +27,7 @@ export default function CampaignsPage() {
       const response = await getCampaigns({ limit: 100 });
       setCampaigns(response.data);
     } catch {
-      toast.error('Failed to load campaigns');
+      toast.error('Impossible de charger les campagnes');
     } finally {
       setIsLoading(false);
     }
@@ -42,11 +42,11 @@ export default function CampaignsPage() {
     setIsCancelling(true);
     try {
       await cancelCampaign(cancelTarget.id);
-      toast.success('Campaign cancelled');
+      toast.success('Campagne annulée');
       setCancelTarget(null);
       fetchCampaigns();
     } catch {
-      toast.error('Failed to cancel campaign');
+      toast.error('Impossible d\'annuler la campagne');
     } finally {
       setIsCancelling(false);
     }
@@ -59,9 +59,9 @@ export default function CampaignsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <PageHeader title="Campaigns" />
+        <PageHeader title="Campagnes" />
         <div className="h-96 flex items-center justify-center text-muted-foreground">
-          Loading...
+          Chargement...
         </div>
       </div>
     );
@@ -70,13 +70,13 @@ export default function CampaignsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Campaigns"
-        description="Create, manage, and track your email marketing campaigns."
+        title="Campagnes"
+        description="Créez, gérez et suivez vos campagnes d'e-mail marketing."
         actions={
           <Button asChild>
             <Link href="/marketing/campaigns/new">
               <Plus className="mr-2 h-4 w-4" />
-              Create Campaign
+              Créer une campagne
             </Link>
           </Button>
         }
@@ -85,13 +85,13 @@ export default function CampaignsPage() {
       {campaigns.length === 0 ? (
         <EmptyState
           icon={Megaphone}
-          title="No campaigns yet"
-          description="Create your first email campaign to reach your contacts."
+          title="Aucune campagne pour le moment"
+          description="Créez votre première campagne e-mail pour atteindre vos contacts."
           action={
             <Button asChild>
               <Link href="/marketing/campaigns/new">
                 <Plus className="mr-2 h-4 w-4" />
-                Create Campaign
+                Créer une campagne
               </Link>
             </Button>
           }
@@ -101,16 +101,16 @@ export default function CampaignsPage() {
           columns={columns}
           data={campaigns}
           searchKey="name"
-          searchPlaceholder="Search campaigns..."
+          searchPlaceholder="Rechercher des campagnes..."
         />
       )}
 
       <ConfirmDialog
         open={!!cancelTarget}
         onOpenChange={(open) => !open && setCancelTarget(null)}
-        title="Cancel Campaign"
-        description={`Are you sure you want to cancel "${cancelTarget?.name}"? This action cannot be undone.`}
-        confirmLabel="Cancel Campaign"
+        title="Annuler la campagne"
+        description={`Êtes-vous sûr de vouloir annuler « ${cancelTarget?.name} » ? Cette action est irréversible.`}
+        confirmLabel="Annuler la campagne"
         variant="destructive"
         onConfirm={handleCancel}
         isLoading={isCancelling}

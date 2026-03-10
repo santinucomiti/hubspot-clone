@@ -47,15 +47,15 @@ export function UpcomingTasks({ data, isLoading }: UpcomingTasksProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Upcoming Tasks</CardTitle>
-        <CardDescription>Tasks due soon</CardDescription>
+        <CardTitle className="text-base">Tâches à venir</CardTitle>
+        <CardDescription>Tâches bientôt dues</CardDescription>
       </CardHeader>
       <CardContent>
         {!data || data.length === 0 ? (
           <div className="flex flex-col items-center py-4 text-center">
             <CheckCircle2 className="h-8 w-8 text-emerald-500 mb-2" />
             <p className="text-sm text-muted-foreground">
-              All caught up! No upcoming tasks.
+              Tout est à jour ! Aucune tâche à venir.
             </p>
           </div>
         ) : (
@@ -81,8 +81,8 @@ export function UpcomingTasks({ data, isLoading }: UpcomingTasksProps) {
                         <span
                           className={overdue ? 'text-red-500 font-medium' : ''}
                         >
-                          {overdue ? 'Overdue: ' : 'Due: '}
-                          {new Date(task.dueAt).toLocaleDateString('en-US', {
+                          {overdue ? 'En retard : ' : 'Échéance : '}
+                          {new Date(task.dueAt).toLocaleDateString('fr-FR', {
                             month: 'short',
                             day: 'numeric',
                           })}

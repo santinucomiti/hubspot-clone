@@ -36,7 +36,7 @@ export function KanbanColumn({ stage, deals }: KanbanColumnProps) {
         isOver && 'ring-2 ring-primary/50 bg-primary/5',
       )}
     >
-      {/* Column Header */}
+      {/* En-tête de colonne */}
       <div className="p-3 border-b">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -54,7 +54,7 @@ export function KanbanColumn({ stage, deals }: KanbanColumnProps) {
         </p>
       </div>
 
-      {/* Cards */}
+      {/* Cartes */}
       <SortableContext items={dealIds} strategy={verticalListSortingStrategy}>
         <div className="flex-1 overflow-y-auto p-2 space-y-2 min-h-[100px]">
           {deals.map((deal) => (

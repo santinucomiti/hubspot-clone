@@ -28,12 +28,12 @@ import type { Deal, CreateDealInput, UpdateDealInput } from '@/lib/api/deals';
 import { parseCurrencyToCents } from './utils';
 
 const dealFormSchema = z.object({
-  name: z.string().min(1, 'Deal name is required').max(200),
+  name: z.string().min(1, 'Le nom de l\'affaire est requis').max(200),
   amount: z.string().optional(),
   currency: z.string().optional(),
   closeDate: z.string().optional(),
-  pipelineId: z.string().min(1, 'Pipeline is required'),
-  stageId: z.string().min(1, 'Stage is required'),
+  pipelineId: z.string().min(1, 'Le pipeline est requis'),
+  stageId: z.string().min(1, 'L\'étape est requise'),
   ownerId: z.string().optional(),
 });
 
@@ -131,16 +131,16 @@ export function DealForm({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{deal ? 'Edit Deal' : 'Create New Deal'}</CardTitle>
+        <CardTitle>{deal ? 'Modifier l\'affaire' : 'Créer une nouvelle affaire'}</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <CardContent className="space-y-4">
-          {/* Deal Name */}
+          {/* Nom de l'affaire */}
           <div className="space-y-2">
-            <Label htmlFor="name">Deal Name *</Label>
+            <Label htmlFor="name">Nom de l&apos;affaire *</Label>
             <Input
               id="name"
-              placeholder="e.g. Acme Corp — Enterprise Plan"
+              placeholder="ex. Acme Corp — Plan Entreprise"
               {...register('name')}
             />
             {errors.name && (
@@ -148,20 +148,20 @@ export function DealForm({
             )}
           </div>
 
-          {/* Amount + Currency */}
+          {/* Montant + Devise */}
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="amount">Amount</Label>
+              <Label htmlFor="amount">Montant</Label>
               <Input
                 id="amount"
-                placeholder="0.00"
+                placeholder="0,00"
                 type="text"
                 inputMode="decimal"
                 {...register('amount')}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="currency">Currency</Label>
+              <Label htmlFor="currency">Devise</Label>
               <Select
                 value={watch('currency')}
                 onValueChange={(v) => setValue('currency', v)}
@@ -178,9 +178,9 @@ export function DealForm({
             </div>
           </div>
 
-          {/* Close Date */}
+          {/* Date de clôture */}
           <div className="space-y-2">
-            <Label htmlFor="closeDate">Expected Close Date</Label>
+            <Label htmlFor="closeDate">Date de clôture prévue</Label>
             <div className="relative">
               <Input id="closeDate" type="date" {...register('closeDate')} />
               <CalendarIcon className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
@@ -195,7 +195,7 @@ export function DealForm({
               onValueChange={(v) => setValue('pipelineId', v)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select pipeline" />
+                <SelectValue placeholder="Sélectionner un pipeline" />
               </SelectTrigger>
               <SelectContent>
                 {pipelines.map((pipeline) => (
@@ -212,15 +212,15 @@ export function DealForm({
             )}
           </div>
 
-          {/* Stage */}
+          {/* Étape */}
           <div className="space-y-2">
-            <Label>Stage *</Label>
+            <Label>Étape *</Label>
             <Select
               value={watch('stageId')}
               onValueChange={(v) => setValue('stageId', v)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select stage" />
+                <SelectValue placeholder="Sélectionner une étape" />
               </SelectTrigger>
               <SelectContent>
                 {stages.map((stage) => (
@@ -243,14 +243,14 @@ export function DealForm({
             onClick={onCancel}
             disabled={isLoading}
           >
-            Cancel
+            Annuler
           </Button>
           <Button type="submit" disabled={isLoading}>
             {isLoading
-              ? 'Saving...'
+              ? 'Enregistrement...'
               : deal
-                ? 'Update Deal'
-                : 'Create Deal'}
+                ? 'Mettre à jour l\'affaire'
+                : 'Créer une affaire'}
           </Button>
         </CardFooter>
       </form>

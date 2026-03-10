@@ -15,10 +15,10 @@ export default function NewDealPage() {
     setIsLoading(true);
     try {
       const deal = await createDeal(data as CreateDealInput);
-      toast.success('Deal created successfully');
+      toast.success('Affaire créée avec succès');
       router.push(`/deals/${deal.id}`);
     } catch {
-      toast.error('Failed to create deal');
+      toast.error('Impossible de créer l\'affaire');
     } finally {
       setIsLoading(false);
     }
@@ -26,7 +26,7 @@ export default function NewDealPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <PageHeader title="New Deal" />
+      <PageHeader title="Nouvelle affaire" />
       <DealForm
         onSubmit={handleSubmit}
         onCancel={() => router.push('/deals')}

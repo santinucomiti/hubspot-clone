@@ -44,10 +44,10 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
     setIsDeleting(true);
     try {
       await deleteContact(deleteId);
-      toast.success('Contact deleted');
+      toast.success('Contact supprimé');
       onRefresh();
     } catch {
-      toast.error('Failed to delete contact');
+      toast.error('Échec de la suppression du contact');
     } finally {
       setIsDeleting(false);
       setDeleteId(null);
@@ -59,18 +59,18 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
     try {
       if (action === 'delete') {
         await bulkContactAction({ ids: selectedIds, action: 'delete' });
-        toast.success(`${selectedIds.length} contact(s) deleted`);
+        toast.success(`${selectedIds.length} contact(s) supprimé(s)`);
       } else if (action === 'assignOwner' && value) {
         await bulkContactAction({ ids: selectedIds, action: 'assignOwner', ownerId: value });
-        toast.success(`Owner assigned to ${selectedIds.length} contact(s)`);
+        toast.success(`Propriétaire assigné à ${selectedIds.length} contact(s)`);
       } else if (action === 'updateLifecycleStage' && value) {
         await bulkContactAction({ ids: selectedIds, action: 'updateLifecycleStage', lifecycleStage: value });
-        toast.success(`Stage updated for ${selectedIds.length} contact(s)`);
+        toast.success(`Étape mise à jour pour ${selectedIds.length} contact(s)`);
       }
       setSelectedIds([]);
       onRefresh();
     } catch {
-      toast.error('Bulk action failed');
+      toast.error('Échec de l\'action groupée');
     }
     setBulkAction(null);
   }, [selectedIds, onRefresh]);
@@ -86,7 +86,7 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
             const rows = table.getRowModel().rows;
             setSelectedIds(value ? rows.map((r) => r.original.id) : []);
           }}
-          aria-label="Select all"
+          aria-label="Tout sélectionner"
         />
       ),
       cell: ({ row }) => (
@@ -98,7 +98,7 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
               value ? [...prev, row.original.id] : prev.filter((id) => id !== row.original.id)
             );
           }}
-          aria-label="Select row"
+          aria-label="Sélectionner la ligne"
         />
       ),
       enableSorting: false,
@@ -106,23 +106,23 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
     },
     {
       accessorKey: 'firstName',
-      header: 'Name',
+      header: 'Nom',
       cell: ({ row }) => (
         <Link href={`/contacts/${row.original.id}`} className="font-medium text-primary hover:underline">
           {row.original.firstName} {row.original.lastName}
         </Link>
       ),
     },
-    { accessorKey: 'email', header: 'Email' },
-    { accessorKey: 'phone', header: 'Phone' },
+    { accessorKey: 'email', header: 'E-mail' },
+    { accessorKey: 'phone', header: 'Téléphone' },
     {
       accessorKey: 'lifecycleStage',
-      header: 'Stage',
+      header: 'Étape',
       cell: ({ row }) => <StatusBadge status={row.original.lifecycleStage} type="lifecycle" />,
     },
     {
       accessorKey: 'company',
-      header: 'Company',
+      header: 'Entreprise',
       cell: ({ row }) =>
         row.original.company ? (
           <Link href={`/companies/${row.original.company.id}`} className="hover:underline">
@@ -134,7 +134,7 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
     },
     {
       accessorKey: 'owner',
-      header: 'Owner',
+      header: 'Propriétaire',
       cell: ({ row }) => `${row.original.owner.firstName} ${row.original.owner.lastName}`,
     },
     {
@@ -148,14 +148,14 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <Link href={`/contacts/${row.original.id}`}>View</Link>
+              <Link href={`/contacts/${row.original.id}`}>Voir</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href={`/contacts/${row.original.id}?edit=true`}>Edit</Link>
+              <Link href={`/contacts/${row.original.id}?edit=true`}>Modifier</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-destructive" onClick={() => setDeleteId(row.original.id)}>
-              Delete
+              Supprimer
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -165,10 +165,10 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
 
   const bulkToolbar = selectedIds.length > 0 ? (
     <div className="flex items-center gap-2 ml-2">
-      <span className="text-sm text-muted-foreground">{selectedIds.length} selected</span>
+      <span className="text-sm text-muted-foreground">{selectedIds.length} sélectionné(s)</span>
       <Select onValueChange={(v) => handleBulkAction('updateLifecycleStage', v)}>
         <SelectTrigger className="h-8 w-[160px]">
-          <SelectValue placeholder="Set stage..." />
+          <SelectValue placeholder="Définir l'étape..." />
         </SelectTrigger>
         <SelectContent>
           {['SUBSCRIBER', 'LEAD', 'OPPORTUNITY', 'CUSTOMER'].map((s) => (
@@ -178,7 +178,7 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
       </Select>
       <Select onValueChange={(v) => handleBulkAction('assignOwner', v)}>
         <SelectTrigger className="h-8 w-[160px]">
-          <SelectValue placeholder="Assign owner..." />
+          <SelectValue placeholder="Assigner un propriétaire..." />
         </SelectTrigger>
         <SelectContent>
           {users.map((u) => (
@@ -187,20 +187,20 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
         </SelectContent>
       </Select>
       <Button variant="destructive" size="sm" onClick={() => setBulkAction('delete')}>
-        <Trash2 className="h-4 w-4 mr-1" /> Delete
+        <Trash2 className="h-4 w-4 mr-1" /> Supprimer
       </Button>
     </div>
   ) : null;
 
   return (
     <>
-      <DataTable columns={columns} data={contacts} searchKey="firstName" searchPlaceholder="Search contacts..." toolbar={bulkToolbar} />
+      <DataTable columns={columns} data={contacts} searchKey="firstName" searchPlaceholder="Rechercher des contacts..." toolbar={bulkToolbar} />
       <ConfirmDialog
         open={!!deleteId}
         onOpenChange={(open) => !open && setDeleteId(null)}
-        title="Delete Contact"
-        description="This action cannot be undone. This will permanently delete the contact."
-        confirmLabel="Delete"
+        title="Supprimer le contact"
+        description="Cette action est irréversible. Le contact sera définitivement supprimé."
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleDelete}
         isLoading={isDeleting}
@@ -208,9 +208,9 @@ export function ContactsTable({ contacts, onRefresh, users }: ContactsTableProps
       <ConfirmDialog
         open={bulkAction === 'delete'}
         onOpenChange={(open) => !open && setBulkAction(null)}
-        title="Delete Contacts"
-        description={`This will permanently delete ${selectedIds.length} contact(s).`}
-        confirmLabel="Delete All"
+        title="Supprimer les contacts"
+        description={`Cela supprimera définitivement ${selectedIds.length} contact(s).`}
+        confirmLabel="Tout supprimer"
         variant="destructive"
         onConfirm={() => handleBulkAction('delete')}
       />

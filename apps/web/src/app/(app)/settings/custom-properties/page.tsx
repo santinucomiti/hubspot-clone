@@ -36,14 +36,14 @@ export default function CustomPropertiesSettingsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Custom Properties"
-        description="Define custom fields for contacts and companies."
+        title="Propriétés personnalisées"
+        description="Définissez des champs personnalisés pour les contacts et les entreprises."
       />
 
       <Tabs value={tab} onValueChange={(v) => setTab(v as 'CONTACT' | 'COMPANY')}>
         <TabsList>
-          <TabsTrigger value="CONTACT">Contact Properties</TabsTrigger>
-          <TabsTrigger value="COMPANY">Company Properties</TabsTrigger>
+          <TabsTrigger value="CONTACT">Propriétés des contacts</TabsTrigger>
+          <TabsTrigger value="COMPANY">Propriétés des entreprises</TabsTrigger>
         </TabsList>
 
         <TabsContent value={tab} className="mt-4">

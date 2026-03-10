@@ -16,10 +16,10 @@ export default function NewTicketPage() {
         </Button>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Create Ticket
+            Créer un ticket
           </h1>
           <p className="text-sm text-muted-foreground">
-            Open a new support ticket.
+            Ouvrir un nouveau ticket de support.
           </p>
         </div>
       </div>

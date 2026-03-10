@@ -13,19 +13,19 @@ import {
 import type { ContactListFilter } from '@/lib/api/contact-lists';
 
 const FILTER_FIELDS = [
-  { value: 'firstName', label: 'First Name' },
-  { value: 'lastName', label: 'Last Name' },
-  { value: 'email', label: 'Email' },
-  { value: 'phone', label: 'Phone' },
-  { value: 'lifecycleStage', label: 'Lifecycle Stage' },
+  { value: 'firstName', label: 'Prénom' },
+  { value: 'lastName', label: 'Nom de famille' },
+  { value: 'email', label: 'E-mail' },
+  { value: 'phone', label: 'Téléphone' },
+  { value: 'lifecycleStage', label: 'Étape du cycle de vie' },
 ];
 
 const FILTER_OPERATORS = [
-  { value: 'equals', label: 'equals' },
-  { value: 'contains', label: 'contains' },
-  { value: 'gt', label: 'greater than' },
-  { value: 'lt', label: 'less than' },
-  { value: 'in', label: 'is one of' },
+  { value: 'equals', label: 'égal à' },
+  { value: 'contains', label: 'contient' },
+  { value: 'gt', label: 'supérieur à' },
+  { value: 'lt', label: 'inférieur à' },
+  { value: 'in', label: 'fait partie de' },
 ];
 
 const LIFECYCLE_STAGE_OPTIONS = ['SUBSCRIBER', 'LEAD', 'OPPORTUNITY', 'CUSTOMER'];
@@ -66,7 +66,7 @@ export function FilterBuilder({ filters, onChange }: FilterBuilderProps) {
           onValueChange={(value) => updateFilter(index, { value })}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select stage" />
+            <SelectValue placeholder="Sélectionner l'étape" />
           </SelectTrigger>
           <SelectContent>
             {LIFECYCLE_STAGE_OPTIONS.map((stage) => (
@@ -83,7 +83,7 @@ export function FilterBuilder({ filters, onChange }: FilterBuilderProps) {
     if (filter.operator === 'in') {
       return (
         <Input
-          placeholder="value1, value2, value3"
+          placeholder="valeur1, valeur2, valeur3"
           value={
             Array.isArray(filter.value)
               ? filter.value.join(', ')
@@ -101,7 +101,7 @@ export function FilterBuilder({ filters, onChange }: FilterBuilderProps) {
 
     return (
       <Input
-        placeholder="Enter value"
+        placeholder="Saisir une valeur"
         value={filter.value as string}
         onChange={(e) => updateFilter(index, { value: e.target.value })}
         className="w-[200px]"
@@ -112,16 +112,16 @@ export function FilterBuilder({ filters, onChange }: FilterBuilderProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm font-medium">Filter Rules</h4>
+        <h4 className="text-sm font-medium">Règles de filtre</h4>
         <Button type="button" variant="outline" size="sm" onClick={addFilter}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Filter
+          Ajouter un filtre
         </Button>
       </div>
 
       {filters.length === 0 && (
         <p className="text-sm text-muted-foreground py-4 text-center border border-dashed rounded-md">
-          No filters added. Click &quot;Add Filter&quot; to define dynamic list criteria.
+          Aucun filtre ajouté. Cliquez sur &quot;Ajouter un filtre&quot; pour définir les critères de la liste dynamique.
         </p>
       )}
 
@@ -132,7 +132,7 @@ export function FilterBuilder({ filters, onChange }: FilterBuilderProps) {
         >
           {index > 0 && (
             <span className="text-xs font-medium text-muted-foreground mr-1">
-              AND
+              ET
             </span>
           )}
 

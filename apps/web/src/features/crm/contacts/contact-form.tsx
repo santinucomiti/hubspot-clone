@@ -27,9 +27,9 @@ import { createContact, updateContact, type Contact } from '@/lib/api/contacts';
 import type { Company } from '@/lib/api/companies';
 
 const contactSchema = z.object({
-  firstName: z.string().min(1, 'First name is required').max(100),
-  lastName: z.string().min(1, 'Last name is required').max(100),
-  email: z.string().email('Invalid email address'),
+  firstName: z.string().min(1, 'Le prénom est obligatoire').max(100),
+  lastName: z.string().min(1, 'Le nom est obligatoire').max(100),
+  email: z.string().email('Adresse e-mail invalide'),
   phone: z.string().max(50).optional().or(z.literal('')),
   lifecycleStage: z.enum(['SUBSCRIBER', 'LEAD', 'OPPORTUNITY', 'CUSTOMER']),
   companyId: z.string().optional().or(z.literal('')),
@@ -67,16 +67,16 @@ export function ContactForm({ contact, companies }: ContactFormProps) {
       };
       if (isEditing) {
         await updateContact(contact.id, data);
-        toast.success('Contact updated');
+        toast.success('Contact mis à jour');
         router.push(`/contacts/${contact.id}`);
       } else {
         const created = await createContact(data);
-        toast.success('Contact created');
+        toast.success('Contact créé avec succès');
         router.push(`/contacts/${created.id}`);
       }
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: { message?: string } } } };
-      const message = error?.response?.data?.error?.message || 'Something went wrong';
+      const message = error?.response?.data?.error?.message || 'Une erreur est survenue';
       toast.error(message);
     }
   };
@@ -84,7 +84,7 @@ export function ContactForm({ contact, companies }: ContactFormProps) {
   return (
     <Card className="max-w-2xl">
       <CardHeader>
-        <CardTitle>{isEditing ? 'Edit Contact' : 'Create Contact'}</CardTitle>
+        <CardTitle>{isEditing ? 'Modifier le contact' : 'Créer un contact'}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -92,14 +92,14 @@ export function ContactForm({ contact, companies }: ContactFormProps) {
             <div className="grid grid-cols-2 gap-4">
               <FormField control={form.control} name="firstName" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Prénom</FormLabel>
                   <FormControl><Input {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField control={form.control} name="lastName" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>Nom</FormLabel>
                   <FormControl><Input {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,28 +107,28 @@ export function ContactForm({ contact, companies }: ContactFormProps) {
             </div>
             <FormField control={form.control} name="email" render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>E-mail</FormLabel>
                 <FormControl><Input type="email" {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
             <FormField control={form.control} name="phone" render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Téléphone</FormLabel>
                 <FormControl><Input {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
             <FormField control={form.control} name="lifecycleStage" render={({ field }) => (
               <FormItem>
-                <FormLabel>Lifecycle Stage</FormLabel>
+                <FormLabel>Étape du cycle de vie</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl>
                   <SelectContent>
-                    <SelectItem value="SUBSCRIBER">Subscriber</SelectItem>
-                    <SelectItem value="LEAD">Lead</SelectItem>
-                    <SelectItem value="OPPORTUNITY">Opportunity</SelectItem>
-                    <SelectItem value="CUSTOMER">Customer</SelectItem>
+                    <SelectItem value="SUBSCRIBER">Abonné</SelectItem>
+                    <SelectItem value="LEAD">Prospect</SelectItem>
+                    <SelectItem value="OPPORTUNITY">Opportunité</SelectItem>
+                    <SelectItem value="CUSTOMER">Client</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -136,11 +136,11 @@ export function ContactForm({ contact, companies }: ContactFormProps) {
             )} />
             <FormField control={form.control} name="companyId" render={({ field }) => (
               <FormItem>
-                <FormLabel>Company</FormLabel>
+                <FormLabel>Entreprise</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl><SelectTrigger><SelectValue placeholder="Select company..." /></SelectTrigger></FormControl>
+                  <FormControl><SelectTrigger><SelectValue placeholder="Sélectionner une entreprise..." /></SelectTrigger></FormControl>
                   <SelectContent>
-                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="">Aucune</SelectItem>
                     {companies.map((c) => (
                       <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                     ))}
@@ -151,9 +151,9 @@ export function ContactForm({ contact, companies }: ContactFormProps) {
             )} />
             <div className="flex gap-2 pt-4">
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Saving...' : isEditing ? 'Update Contact' : 'Create Contact'}
+                {form.formState.isSubmitting ? 'Enregistrement...' : isEditing ? 'Mettre à jour le contact' : 'Créer le contact'}
               </Button>
-              <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+              <Button type="button" variant="outline" onClick={() => router.back()}>Annuler</Button>
             </div>
           </form>
         </Form>

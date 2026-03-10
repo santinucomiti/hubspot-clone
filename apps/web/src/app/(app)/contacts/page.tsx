@@ -68,7 +68,7 @@ export default function ContactsPage() {
         description={`${total} contact${total !== 1 ? 's' : ''}`}
         actions={
           <Button asChild>
-            <Link href="/contacts/new"><Plus className="h-4 w-4 mr-1" /> Create Contact</Link>
+            <Link href="/contacts/new"><Plus className="h-4 w-4 mr-1" /> Créer un contact</Link>
           </Button>
         }
       />
@@ -76,29 +76,29 @@ export default function ContactsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3">
         <Input
-          placeholder="Search contacts..."
+          placeholder="Rechercher des contacts..."
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="h-9 w-64"
         />
         <Select value={stageFilter} onValueChange={(v) => { setStageFilter(v === 'all' ? '' : v); setPage(1); }}>
           <SelectTrigger className="h-9 w-[160px]">
-            <SelectValue placeholder="All stages" />
+            <SelectValue placeholder="Toutes les étapes" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All stages</SelectItem>
-            <SelectItem value="SUBSCRIBER">Subscriber</SelectItem>
-            <SelectItem value="LEAD">Lead</SelectItem>
-            <SelectItem value="OPPORTUNITY">Opportunity</SelectItem>
-            <SelectItem value="CUSTOMER">Customer</SelectItem>
+            <SelectItem value="all">Toutes les étapes</SelectItem>
+            <SelectItem value="SUBSCRIBER">Abonné</SelectItem>
+            <SelectItem value="LEAD">Prospect</SelectItem>
+            <SelectItem value="OPPORTUNITY">Opportunité</SelectItem>
+            <SelectItem value="CUSTOMER">Client</SelectItem>
           </SelectContent>
         </Select>
         <Select value={ownerFilter} onValueChange={(v) => { setOwnerFilter(v === 'all' ? '' : v); setPage(1); }}>
           <SelectTrigger className="h-9 w-[160px]">
-            <SelectValue placeholder="All owners" />
+            <SelectValue placeholder="Tous les propriétaires" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All owners</SelectItem>
+            <SelectItem value="all">Tous les propriétaires</SelectItem>
             {users.map((u) => (
               <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName}</SelectItem>
             ))}
@@ -113,9 +113,9 @@ export default function ContactsPage() {
       ) : contacts.length === 0 ? (
         <EmptyState
           icon={Users}
-          title="No contacts yet"
-          description="Create your first contact to start managing relationships."
-          action={<Button asChild><Link href="/contacts/new">Create Contact</Link></Button>}
+          title="Aucun contact pour le moment"
+          description="Créez votre premier contact pour commencer à gérer vos relations."
+          action={<Button asChild><Link href="/contacts/new">Créer un contact</Link></Button>}
         />
       ) : (
         <ContactsTable contacts={contacts} onRefresh={fetchContacts} users={users} />

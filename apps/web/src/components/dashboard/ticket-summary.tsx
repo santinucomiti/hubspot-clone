@@ -23,10 +23,10 @@ interface TicketSummaryProps {
 }
 
 const statusConfig = [
-  { key: 'open' as const, label: 'Open', color: 'bg-blue-500' },
-  { key: 'inProgress' as const, label: 'In Progress', color: 'bg-amber-500' },
-  { key: 'waiting' as const, label: 'Waiting', color: 'bg-gray-400' },
-  { key: 'resolved' as const, label: 'Resolved', color: 'bg-emerald-500' },
+  { key: 'open' as const, label: 'Ouvert', color: 'bg-blue-500' },
+  { key: 'inProgress' as const, label: 'En cours', color: 'bg-amber-500' },
+  { key: 'waiting' as const, label: 'En attente', color: 'bg-gray-400' },
+  { key: 'resolved' as const, label: 'Résolu', color: 'bg-emerald-500' },
 ];
 
 export function TicketSummary({ data, isLoading }: TicketSummaryProps) {
@@ -55,9 +55,9 @@ export function TicketSummary({ data, isLoading }: TicketSummaryProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Ticket Summary</CardTitle>
+        <CardTitle className="text-base">Résumé des tickets</CardTitle>
         <CardDescription>
-          {total} total active tickets
+          {total} tickets actifs au total
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -65,7 +65,7 @@ export function TicketSummary({ data, isLoading }: TicketSummaryProps) {
           <div className="flex flex-col items-center py-4 text-center">
             <Ticket className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-sm text-muted-foreground">
-              No ticket data available
+              Aucune donnée de ticket disponible
             </p>
           </div>
         ) : (

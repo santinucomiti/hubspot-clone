@@ -49,12 +49,12 @@ export function DealCard({ deal, isDragging }: DealCardProps) {
           )}
         >
           <CardContent className="p-3 space-y-2">
-            {/* Deal Name */}
+            {/* Nom de l'affaire */}
             <p className="font-medium text-sm leading-tight line-clamp-2">
               {deal.name}
             </p>
 
-            {/* Amount */}
+            {/* Montant */}
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <DollarSign className="h-3 w-3" />
               <span className="font-semibold text-foreground">
@@ -62,7 +62,7 @@ export function DealCard({ deal, isDragging }: DealCardProps) {
               </span>
             </div>
 
-            {/* Close Date */}
+            {/* Date de clôture */}
             {deal.closeDate && (
               <div
                 className={cn(
@@ -75,7 +75,7 @@ export function DealCard({ deal, isDragging }: DealCardProps) {
               </div>
             )}
 
-            {/* Owner */}
+            {/* Propriétaire */}
             {deal.owner && (
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <User className="h-3 w-3" />
@@ -85,7 +85,7 @@ export function DealCard({ deal, isDragging }: DealCardProps) {
               </div>
             )}
 
-            {/* Contact badges */}
+            {/* Badges de contact */}
             {deal.contacts && deal.contacts.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {deal.contacts.slice(0, 2).map((contact) => (
@@ -111,7 +111,7 @@ export function DealCard({ deal, isDragging }: DealCardProps) {
 }
 
 /**
- * Overlay version of DealCard for drag overlay (no interactivity).
+ * Version superposée de DealCard pour l'aperçu de glissement (sans interactivité).
  */
 export function DealCardOverlay({ deal }: { deal: Deal }) {
   const overdue = isOverdue(deal.closeDate);
