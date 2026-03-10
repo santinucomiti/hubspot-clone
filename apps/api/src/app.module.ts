@@ -5,6 +5,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { PrismaModule } from './modules/common/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CrmModule } from './modules/crm/crm.module';
+import { DealsModule } from './modules/deals/deals.module';
+import { ServiceModule } from './modules/service/service.module';
+import { MarketingModule } from './modules/marketing/marketing.module';
 
 @Module({
   imports: [
@@ -13,6 +16,9 @@ import { CrmModule } from './modules/crm/crm.module';
     PrismaModule,
     AuthModule,
     CrmModule,
+    DealsModule,
+    ServiceModule,
+    MarketingModule,
   ],
   providers: [
     {
