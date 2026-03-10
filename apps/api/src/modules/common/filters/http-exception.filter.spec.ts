@@ -26,6 +26,15 @@ describe('HttpExceptionFilter', () => {
     });
   });
 
+  it('should handle non-HttpException as 500 INTERNAL_ERROR', () => {
+    const exception = new Error('Something broke');
+    filter.catch(exception, mockContext);
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      error: { code: 'INTERNAL_ERROR', message: 'Internal server error' },
+    });
+  });
+
   it('should handle validation errors with field-level details', () => {
     const exception = new HttpException(
       { statusCode: 422, message: ['email must be an email', 'password is too short'], error: 'Unprocessable Entity' },
