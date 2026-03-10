@@ -40,23 +40,102 @@ enum CustomFieldEntityType {
   COMPANY
 }
 
+// Plan 4: Marketing enums
+enum ContactListType {
+  STATIC
+  DYNAMIC
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  CANCELLED
+}
+
+enum CampaignEventType {
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  UNSUBSCRIBED
+}
+
+// Plan 5: Service enums
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketSource {
+  EMAIL
+  MANUAL
+  FORM
+}
+
+// Plan 6: Cross-cutting enums
+enum NotificationType {
+  TICKET_ASSIGNED
+  DEAL_STAGE_CHANGED
+  CONTACT_ASSIGNED
+  COMMENT_ADDED
+  DEAL_WON
+  DEAL_LOST
+  CAMPAIGN_SENT
+  GENERAL
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum AttachmentEntityType {
+  CONTACT
+  COMPANY
+  DEAL
+  TICKET
+  ACTIVITY
+  CAMPAIGN
+}
+
 model User {
-  id            String         @id @default(cuid())
-  email         String         @unique
-  password      String
-  firstName     String
-  lastName      String
-  role          Role           @default(MEMBER)
-  avatarUrl     String?
-  isActive            Boolean        @default(true)
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  password            String
+  firstName           String
+  lastName            String
+  role                Role                 @default(MEMBER)
+  avatarUrl           String?
+  isActive            Boolean              @default(true)
   resetToken          String?
   resetTokenExpiresAt DateTime?
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
   refreshTokens       RefreshToken[]
-  ownedContacts  Contact[]  @relation("ContactOwner")
-  ownedCompanies Company[]  @relation("CompanyOwner")
-  activities     Activity[] @relation("ActivityCreatedBy")
+  ownedContacts       Contact[]            @relation("ContactOwner")
+  ownedCompanies      Company[]            @relation("CompanyOwner")
+  activities          Activity[]           @relation("ActivityCreatedBy")
+  ownedDeals          Deal[]               @relation("DealOwner")
+  ownedTickets        Ticket[]             @relation("TicketOwner")
+  ticketComments      TicketComment[]      @relation("TicketCommentAuthor")
+  ticketStatusChanges TicketStatusHistory[] @relation("TicketStatusChangedBy")
+  notifications       Notification[]       @relation("UserNotifications")
+  auditLogs           AuditLog[]           @relation("UserAuditLogs")
+  attachments         Attachment[]         @relation("UserAttachments")
 
   @@map("users")
 }
@@ -74,37 +153,44 @@ model RefreshToken {
 }
 
 model Company {
-  id           String     @id @default(cuid())
+  id           String               @id @default(cuid())
   name         String
-  domain       String?    @unique
+  domain       String?              @unique
   industry     String?
   size         String?
   ownerId      String
-  owner        User       @relation("CompanyOwner", fields: [ownerId], references: [id])
+  owner        User                 @relation("CompanyOwner", fields: [ownerId], references: [id])
   contacts     Contact[]
   activities   Activity[]
   customValues CustomPropertyValue[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  deals        DealCompany[]
+  tickets      Ticket[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
 
   @@map("companies")
 }
 
 model Contact {
-  id             String         @id @default(cuid())
-  firstName      String
-  lastName       String
-  email          String         @unique
-  phone          String?
-  lifecycleStage LifecycleStage @default(SUBSCRIBER)
-  ownerId        String
-  owner          User           @relation("ContactOwner", fields: [ownerId], references: [id])
-  companyId      String?
-  company        Company?       @relation(fields: [companyId], references: [id])
-  activities     Activity[]
-  customValues   CustomPropertyValue[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  id                 String              @id @default(cuid())
+  firstName          String
+  lastName           String
+  email              String              @unique
+  phone              String?
+  lifecycleStage     LifecycleStage      @default(SUBSCRIBER)
+  isUnsubscribed     Boolean             @default(false)
+  ownerId            String
+  owner              User                @relation("ContactOwner", fields: [ownerId], references: [id])
+  companyId          String?
+  company            Company?            @relation(fields: [companyId], references: [id])
+  activities         Activity[]
+  customValues       CustomPropertyValue[]
+  deals              DealContact[]
+  tickets            Ticket[]
+  contactListMembers ContactListMember[]
+  campaignEvents     CampaignEvent[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 
   @@map("contacts")
 }
@@ -122,7 +208,9 @@ model Activity {
   companyId   String?
   company     Company?     @relation(fields: [companyId], references: [id])
   dealId      String?
+  deal        Deal?        @relation(fields: [dealId], references: [id])
   ticketId    String?
+  ticket      Ticket?      @relation(fields: [ticketId], references: [id])
   duration    Int?
   startAt     DateTime?
   endAt       DateTime?
@@ -140,16 +228,16 @@ model Activity {
 }
 
 model CustomPropertyDefinition {
-  id         String              @id @default(cuid())
+  id         String               @id @default(cuid())
   name       String
   label      String
   fieldType  CustomFieldType
   entityType CustomFieldEntityType
   options    Json?
-  isRequired Boolean             @default(false)
+  isRequired Boolean              @default(false)
   values     CustomPropertyValue[]
-  createdAt  DateTime            @default(now())
-  updatedAt  DateTime            @updatedAt
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
 
   @@unique([name, entityType])
   @@map("custom_property_definitions")
@@ -170,4 +258,289 @@ model CustomPropertyValue {
   @@unique([definitionId, entityType, entityId])
   @@index([entityType, entityId])
   @@map("custom_property_values")
+}
+
+// Plan 3: Deals & Sales Pipeline
+model Pipeline {
+  id        String   @id @default(cuid())
+  name      String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stages    Stage[]
+  deals     Deal[]
+
+  @@map("pipelines")
+}
+
+model Stage {
+  id          String   @id @default(cuid())
+  name        String
+  position    Int
+  probability Int      @default(0)
+  isWon       Boolean  @default(false)
+  isLost      Boolean  @default(false)
+  pipelineId  String
+  pipeline    Pipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deals       Deal[]
+
+  @@index([pipelineId])
+  @@unique([pipelineId, position])
+  @@map("stages")
+}
+
+model Deal {
+  id         String        @id @default(cuid())
+  name       String
+  amount     Int           @default(0)
+  currency   String        @default("EUR")
+  closeDate  DateTime?
+  lostReason String?
+  stageId    String
+  stage      Stage         @relation(fields: [stageId], references: [id])
+  pipelineId String
+  pipeline   Pipeline      @relation(fields: [pipelineId], references: [id])
+  ownerId    String
+  owner      User          @relation("DealOwner", fields: [ownerId], references: [id])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  contacts   DealContact[]
+  companies  DealCompany[]
+  activities Activity[]
+  tickets    Ticket[]
+
+  @@index([stageId])
+  @@index([pipelineId])
+  @@index([ownerId])
+  @@index([closeDate])
+  @@map("deals")
+}
+
+model DealContact {
+  id        String   @id @default(cuid())
+  dealId    String
+  deal      Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  contactId String
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([dealId, contactId])
+  @@index([contactId])
+  @@map("deal_contacts")
+}
+
+model DealCompany {
+  id        String   @id @default(cuid())
+  dealId    String
+  deal      Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([dealId, companyId])
+  @@index([companyId])
+  @@map("deal_companies")
+}
+
+// Plan 4: Marketing
+model ContactList {
+  id        String          @id @default(cuid())
+  name      String
+  type      ContactListType
+  filters   Json?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  members       ContactListMember[]
+  campaignLists CampaignList[]
+
+  @@map("contact_lists")
+}
+
+model ContactListMember {
+  id            String      @id @default(cuid())
+  contactListId String
+  contactList   ContactList @relation(fields: [contactListId], references: [id], onDelete: Cascade)
+  contactId     String
+  contact       Contact     @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+
+  @@unique([contactListId, contactId])
+  @@index([contactListId])
+  @@index([contactId])
+  @@map("contact_list_members")
+}
+
+model EmailTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  subject     String
+  htmlContent String
+  mjmlSource  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaigns Campaign[]
+
+  @@map("email_templates")
+}
+
+model Campaign {
+  id          String         @id @default(cuid())
+  name        String
+  subject     String
+  fromName    String
+  fromEmail   String
+  templateId  String
+  template    EmailTemplate  @relation(fields: [templateId], references: [id])
+  status      CampaignStatus @default(DRAFT)
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  campaignLists CampaignList[]
+  events        CampaignEvent[]
+
+  @@map("campaigns")
+}
+
+model CampaignList {
+  id            String      @id @default(cuid())
+  campaignId    String
+  campaign      Campaign    @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  contactListId String
+  contactList   ContactList @relation(fields: [contactListId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, contactListId])
+  @@map("campaign_lists")
+}
+
+model CampaignEvent {
+  id         String            @id @default(cuid())
+  campaignId String
+  campaign   Campaign          @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  contactId  String
+  contact    Contact           @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  eventType  CampaignEventType
+  metadata   Json?
+  createdAt  DateTime          @default(now())
+
+  @@index([campaignId, eventType])
+  @@index([contactId])
+  @@map("campaign_events")
+}
+
+// Plan 5: Service (Tickets)
+model Ticket {
+  id              String              @id @default(cuid())
+  subject         String
+  description     String?
+  status          TicketStatus        @default(OPEN)
+  priority        TicketPriority      @default(MEDIUM)
+  category        String?
+  source          TicketSource        @default(MANUAL)
+  statusChangedAt DateTime            @default(now())
+  ownerId         String?
+  owner           User?               @relation("TicketOwner", fields: [ownerId], references: [id])
+  contactId       String?
+  contact         Contact?            @relation(fields: [contactId], references: [id])
+  companyId       String?
+  company         Company?            @relation(fields: [companyId], references: [id])
+  dealId          String?
+  deal            Deal?               @relation(fields: [dealId], references: [id])
+  comments        TicketComment[]
+  statusHistory   TicketStatusHistory[]
+  activities      Activity[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([status])
+  @@index([priority])
+  @@index([ownerId])
+  @@index([contactId])
+  @@index([companyId])
+  @@index([dealId])
+  @@map("tickets")
+}
+
+model TicketComment {
+  id         String   @id @default(cuid())
+  ticketId   String
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId   String
+  author     User     @relation("TicketCommentAuthor", fields: [authorId], references: [id])
+  body       String
+  isInternal Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([ticketId])
+  @@index([authorId])
+  @@map("ticket_comments")
+}
+
+model TicketStatusHistory {
+  id          String       @id @default(cuid())
+  ticketId    String
+  ticket      Ticket       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  fromStatus  TicketStatus
+  toStatus    TicketStatus
+  changedById String
+  changedBy   User         @relation("TicketStatusChangedBy", fields: [changedById], references: [id])
+  changedAt   DateTime     @default(now())
+
+  @@index([ticketId])
+  @@index([changedById])
+  @@map("ticket_status_history")
+}
+
+// Plan 6: Cross-cutting
+model Notification {
+  id          String           @id @default(cuid())
+  type        NotificationType
+  message     String
+  link        String?
+  isRead      Boolean          @default(false)
+  recipientId String
+  recipient   User             @relation("UserNotifications", fields: [recipientId], references: [id], onDelete: Cascade)
+  createdAt   DateTime         @default(now())
+
+  @@index([recipientId, isRead])
+  @@index([recipientId, createdAt])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String
+  user       User        @relation("UserAuditLogs", fields: [userId], references: [id])
+  action     AuditAction
+  entityType String
+  entityId   String
+  changes    Json?
+  createdAt  DateTime    @default(now())
+
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model Attachment {
+  id           String               @id @default(cuid())
+  fileName     String
+  mimeType     String
+  size         Int
+  storagePath  String
+  entityType   AttachmentEntityType
+  entityId     String
+  uploadedById String
+  uploadedBy   User                 @relation("UserAttachments", fields: [uploadedById], references: [id])
+  createdAt    DateTime             @default(now())
+
+  @@index([entityType, entityId])
+  @@index([uploadedById])
+  @@map("attachments")
 }
