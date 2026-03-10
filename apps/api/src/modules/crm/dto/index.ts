@@ -6,3 +6,5 @@ export { BulkContactActionDto } from './bulk-contact-action.dto';
 export { CreateCompanyDto } from './create-company.dto';
 export { UpdateCompanyDto } from './update-company.dto';
 export { CompanyQueryDto } from './company-query.dto';
+export { CreateActivityDto } from './create-activity.dto';
+export { ActivityQueryDto } from './activity-query.dto';
