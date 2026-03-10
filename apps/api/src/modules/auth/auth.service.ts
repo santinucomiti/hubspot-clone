@@ -17,6 +17,8 @@ import {
   AuthTokens,
 } from './dto';
 
+const BCRYPT_SALT_ROUNDS = 10;
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,24 +28,26 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponse> {
-    const existing = await this.prisma.user.findUnique({
-      where: { email: dto.email },
-    });
-    if (existing) {
-      throw new ConflictException('Email already registered');
-    }
+    const user = await this.prisma.$transaction(async (tx) => {
+      const existing = await tx.user.findUnique({
+        where: { email: dto.email },
+      });
+      if (existing) {
+        throw new ConflictException('Email already registered');
+      }
 
-    const userCount = await this.prisma.user.count();
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
+      const userCount = await tx.user.count();
+      const hashedPassword = await bcrypt.hash(dto.password, BCRYPT_SALT_ROUNDS);
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        password: hashedPassword,
-        firstName: dto.firstName,
-        lastName: dto.lastName,
-        role: userCount === 0 ? 'ADMIN' : 'MEMBER',
-      },
+      return tx.user.create({
+        data: {
+          email: dto.email,
+          password: hashedPassword,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          role: userCount === 0 ? 'ADMIN' : 'MEMBER',
+        },
+      });
     });
 
     const tokens = await this.generateTokens(user.id, user.email, user.role);
@@ -155,8 +159,7 @@ export class AuthService {
         },
       });
 
-      // TODO: Send email with rawToken in reset link
-      console.log(`Password reset token for ${dto.email}: ${rawToken}`);
+      // TODO: Send email with reset link containing rawToken
     }
 
     return { message: 'If the email exists, a reset link has been sent' };
@@ -179,7 +182,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid or expired reset token');
     }
 
-    const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+    const hashedPassword = await bcrypt.hash(dto.newPassword, BCRYPT_SALT_ROUNDS);
 
     await this.prisma.user.update({
       where: { id: user.id },

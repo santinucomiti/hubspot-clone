@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
@@ -9,7 +9,7 @@ import * as crypto from 'crypto';
 
 jest.mock('bcrypt');
 
-const mockPrisma = {
+const mockPrisma: any = {
   user: {
     findUnique: jest.fn(),
     findFirst: jest.fn(),
@@ -23,6 +23,7 @@ const mockPrisma = {
     delete: jest.fn(),
     deleteMany: jest.fn(),
   },
+  $transaction: jest.fn((fn) => fn(mockPrisma)),
 };
 
 const mockJwt = {
