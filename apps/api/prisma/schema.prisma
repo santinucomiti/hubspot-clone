@@ -13,6 +13,33 @@ enum Role {
   MEMBER
 }
 
+enum LifecycleStage {
+  SUBSCRIBER
+  LEAD
+  OPPORTUNITY
+  CUSTOMER
+}
+
+enum ActivityType {
+  NOTE
+  EMAIL
+  CALL
+  MEETING
+  TASK
+}
+
+enum CustomFieldType {
+  TEXT
+  NUMBER
+  DATE
+  DROPDOWN
+}
+
+enum CustomFieldEntityType {
+  CONTACT
+  COMPANY
+}
+
 model User {
   id            String         @id @default(cuid())
   email         String         @unique
@@ -27,6 +54,9 @@ model User {
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
   refreshTokens       RefreshToken[]
+  ownedContacts  Contact[]  @relation("ContactOwner")
+  ownedCompanies Company[]  @relation("CompanyOwner")
+  activities     Activity[] @relation("ActivityCreatedBy")
 
   @@map("users")
 }
@@ -41,4 +71,103 @@ model RefreshToken {
 
   @@index([userId])
   @@map("refresh_tokens")
+}
+
+model Company {
+  id           String     @id @default(cuid())
+  name         String
+  domain       String?    @unique
+  industry     String?
+  size         String?
+  ownerId      String
+  owner        User       @relation("CompanyOwner", fields: [ownerId], references: [id])
+  contacts     Contact[]
+  activities   Activity[]
+  customValues CustomPropertyValue[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("companies")
+}
+
+model Contact {
+  id             String         @id @default(cuid())
+  firstName      String
+  lastName       String
+  email          String         @unique
+  phone          String?
+  lifecycleStage LifecycleStage @default(SUBSCRIBER)
+  ownerId        String
+  owner          User           @relation("ContactOwner", fields: [ownerId], references: [id])
+  companyId      String?
+  company        Company?       @relation(fields: [companyId], references: [id])
+  activities     Activity[]
+  customValues   CustomPropertyValue[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@map("contacts")
+}
+
+model Activity {
+  id          String       @id @default(cuid())
+  type        ActivityType
+  subject     String
+  body        String?
+  occurredAt  DateTime     @default(now())
+  createdById String
+  createdBy   User         @relation("ActivityCreatedBy", fields: [createdById], references: [id])
+  contactId   String?
+  contact     Contact?     @relation(fields: [contactId], references: [id])
+  companyId   String?
+  company     Company?     @relation(fields: [companyId], references: [id])
+  dealId      String?
+  ticketId    String?
+  duration    Int?
+  startAt     DateTime?
+  endAt       DateTime?
+  dueAt       DateTime?
+  completedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([contactId])
+  @@index([companyId])
+  @@index([dealId])
+  @@index([ticketId])
+  @@index([type])
+  @@map("activities")
+}
+
+model CustomPropertyDefinition {
+  id         String              @id @default(cuid())
+  name       String
+  label      String
+  fieldType  CustomFieldType
+  entityType CustomFieldEntityType
+  options    Json?
+  isRequired Boolean             @default(false)
+  values     CustomPropertyValue[]
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  @@unique([name, entityType])
+  @@map("custom_property_definitions")
+}
+
+model CustomPropertyValue {
+  id           String                   @id @default(cuid())
+  definitionId String
+  definition   CustomPropertyDefinition @relation(fields: [definitionId], references: [id], onDelete: Cascade)
+  entityType   CustomFieldEntityType
+  entityId     String
+  value        String
+  contact      Contact?                 @relation(fields: [entityId], references: [id], map: "cpv_contact_fk")
+  company      Company?                 @relation(fields: [entityId], references: [id], map: "cpv_company_fk")
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+
+  @@unique([definitionId, entityType, entityId])
+  @@index([entityType, entityId])
+  @@map("custom_property_values")
 }
